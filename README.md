@@ -18,6 +18,7 @@ Github guide:
 3. Once you have done editing, type "git add --all" followed by " git commit -m "DESCRIBE THE CHANGES YOU HAVE MADE HERE" "
 4. Finally "git push origin development" to make the changes visble to me.
 
+# Project Description
 In this project, we will build a personal accounting system that can satisfy the following requirements:
 
 1) add records of income and expenses;
