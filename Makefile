@@ -11,7 +11,7 @@ demo: demo.o record.o
 clean:
 	rm *.o
 #Executables	
-test.o: test.cpp
+demo.o: demo.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 main.o: main.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
