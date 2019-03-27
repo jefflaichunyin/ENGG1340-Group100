@@ -16,13 +16,13 @@ demo.o: demo.cpp
 main.o: main.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 #Object files
-record.o: record.cpp record.hpp
+record.o: record.cpp record.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
-records.o: records.cpp records.hpp
+records.o: records.cpp records.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
-ui.o: ui.cpp ui.hpp
+ui.o: ui.cpp ui.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
-report.o: report.cpp report.hpp
+report.o: report.cpp report.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
-user.o: user.cpp user.hpp
+user.o: user.cpp user.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@

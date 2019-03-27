@@ -1,4 +1,4 @@
-#include "record.hpp"
+#include "record.h"
 #include <cctype>
 #include <cstring>
 

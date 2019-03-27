@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <ctime>
-#include "record.hpp"
+#include "record.h"
 using namespace std;
 int main()
 {
