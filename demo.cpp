@@ -29,6 +29,13 @@ int main()
         Record *r=JeffRecords.getRecord(i);
         cout << r->getDate() << " " << r->getAccount() << " " << r->getCategory() << " " << r->getAmount() << endl;
     }
-
+    cout << endl;
+    JeffRecords.deleteRecord(1); // delete the 2nd record
+    JeffRecords.getRecord(0)->setAmount(800); // modify 1st record
+    for(unsigned int i=0; i<JeffRecords.countRecord(); i++)
+    {
+        Record *r=JeffRecords.getRecord(i);
+        cout << r->getDate() << " " << r->getAccount() << " " << r->getCategory() << " " << r->getAmount() << endl;
+    }
     return 0;
 }
