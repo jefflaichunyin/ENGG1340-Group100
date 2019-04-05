@@ -6,8 +6,9 @@
 using namespace std;
 int main()
 {
+
     Records JeffRecords;
-    Record *r = NULL;
+    Record *r = nullptr;
     r = new Record();
     r->setAccount("credit card");
     r->setAmount(1000);
@@ -37,5 +38,6 @@ int main()
         Record *r=JeffRecords.getRecord(i);
         cout << r->getDate() << " " << r->getAccount() << " " << r->getCategory() << " " << r->getAmount() << endl;
     }
+
     return 0;
 }

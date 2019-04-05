@@ -1,17 +1,23 @@
 #include "record.h"
 #include <cctype>
 #include <cstring>
-
+#include <ctime>
 
 
 
 //getters
-time_t Record::getDate(){return _date;}
 float Record::getAmount(){return _amount;}
 std::string Record::getType(){return _type;}
 std::string Record::getAccount(){return _account;}
 std::string Record::getRemark(){return _remark;}
 std::string Record::getCategory(){return _category;}
+std::string Record::getDate()
+{
+    char buffer[50];
+    std::strftime(buffer, 50, "%c", std::localtime(&_date));
+    std::string date_str(buffer);
+    return date_str;
+}
 //setters
 bool Record::setDate(time_t date)
 {

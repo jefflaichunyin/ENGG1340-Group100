@@ -19,7 +19,7 @@ class Record
         Record(); //constructor
         Record(time_t date, float amount, std::string type, std::string category, std::string account, std::string remark);
         //getters
-        time_t getDate();
+        std::string getDate();
         float getAmount(); //return -1 if undefined
         std::string getType();
         std::string getCategory();
