@@ -39,5 +39,9 @@ int main()
         cout << r->getDate() << " " << r->getAccount() << " " << r->getCategory() << " " << r->getAmount() << endl;
     }
 
+    JeffRecords.writeRecords("Jeff.dat");
+    Records newRecord;
+    newRecord.readRecords("Jeff.dat");
+    cout << newRecord.getRecord(0)->getDate() << endl;
     return 0;
 }
