@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -O3 -Wall -std=c++11
-.PHONY: clean
+.PHONY: clean demo
 #Targets
 all: main.o record.o records.o ui.o report.o user.o
 	$(CXX) $(CXXFLAGS) $^ -o main
