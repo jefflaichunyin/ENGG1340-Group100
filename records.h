@@ -13,6 +13,9 @@ class Records
         void addRecord(Record record);
         bool deleteRecord(unsigned int no);
         bool replaceRecord(unsigned int no, Record record); //replace old record with new record
+
+        // not implemented yet
+        std::vector<int> searchRecords(unsigned int key, std::string value); // return a vector containing indexes pointing to the records
         void sortRecords(unsigned int key, bool ascending);
         bool readRecords(std::string location);
         bool writeRecords(std::string location);
