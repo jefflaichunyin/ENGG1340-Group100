@@ -1,5 +1,11 @@
 #include "user.h"
 #include <iostream>
+// Class User member function implementation
+Records * User::getUserRecords(void)
+{
+    return &_records;
+}
+
 bool User::setUsername(std::string username)
 {
     if(_username == "")
@@ -22,6 +28,7 @@ bool User::setPassword(std::string password)
     }
     else // password is already set
     {
+        _password = password; // set it anyway but return false as warning
         return false;
     }   
 }
@@ -36,23 +43,29 @@ std::string User::getPassword(void)
     return _password;
 }
 
+// constructor of User object
 User::User(std::string username, std::string password)
 {
     _username = username;
     _password = password;
 }
 
+// Class UserAccount member function implementation
+
 // Function: return the position of the user in the _users vector
 //           return -1 if username is not found in the _users vector
 int UserAccounts::searchUser(std::string username)
 {
-    int index = -1;
-    for(index = 0; index < int(_users.size()); index++)
+    int pos = -1;
+    for(int i = 0; i < int(_users.size()); i++)
     {
-        if(_users[index].getUsername() == username)
+        if(_users[i].getUsername() == username)
+        {
+            pos = i;
             break;
+        }    
     }
-    return index;
+    return pos;
 }
 bool UserAccounts::addUser(std::string username, std::string password)
 {
@@ -73,13 +86,13 @@ bool UserAccounts::addUser(std::string username, std::string password)
 
 bool UserAccounts::checkPassword(std::string username, std::string password)
 {
-    int index = searchUser(username);
-    if(index == -1) // user doesn't exist
+    int pos = searchUser(username);
+    if(pos == -1) // user doesn't exist
     {
         std::cout << username << " doesn't exist. Please try again.\n";
         return false;
     }
-    else if(_users[index].getPassword() != password) // user exist but password is incorrect
+    else if(_users[pos].getPassword() != password) // user exist but password is incorrect
     {
         std::cout << "Incorrect password. Please enter the password correctly.\n";
         return false;
@@ -124,5 +137,17 @@ bool UserAccounts::changePassword(std::string username, std::string old_password
     else
     {
         return false;
+    }
+}
+
+User * UserAccounts::getUser(std::string username, std::string password)
+{
+    if(checkPassword(username, password)) // user exist and password correct
+    {
+        return &_users[(unsigned int)searchUser(username)];
+    }
+    else
+    {
+        return nullptr;
     }
 }

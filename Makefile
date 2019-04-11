@@ -5,7 +5,7 @@ CXXFLAGS = -O3 -Wall -std=c++11
 all: main.o record.o records.o ui.o report.o user.o
 	$(CXX) $(CXXFLAGS) $^ -o main
 	./main
-demo: demo.o record.o records.o
+demo: demo.o record.o records.o user.o
 	$(CXX) $(CXXFLAGS) $^ -o demo
 	./demo
 clean:
