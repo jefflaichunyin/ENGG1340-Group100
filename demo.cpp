@@ -26,9 +26,9 @@ int main()
     r->setAmount(1000);
     r->setCategory("toys");
     // Add new record to user
-    user_account.getUser("Jeff", "54321")->getUserRecords()->addRecord(*r); // <- Preferred for sure
+    user_account.getUser("Jeff")->getUserRecords()->addRecord(*r); // <- Preferred for sure
     // Alternatively, but not recommended
-    User *Jeff = user_account.getUser("Jeff", "54321");
+    User *Jeff = user_account.getUser("Jeff");
     Records *JeffRecords = Jeff->getUserRecords();
     JeffRecords->addRecord(*r);
 
