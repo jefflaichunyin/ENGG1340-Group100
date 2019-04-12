@@ -140,11 +140,12 @@ bool UserAccounts::changePassword(std::string username, std::string old_password
     }
 }
 
-User * UserAccounts::getUser(std::string username, std::string password)
+User * UserAccounts::getUser(std::string username)
 {
-    if(checkPassword(username, password)) // user exist and password correct
+    int pos = searchUser(username);
+    if(pos != -1) // user exist and password correct
     {
-        return &_users[(unsigned int)searchUser(username)];
+        return &_users[(unsigned int)pos];
     }
     else
     {

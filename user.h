@@ -29,7 +29,7 @@ class UserAccounts
         bool removeUser(std::string username, std::string password);
         bool checkPassword(std::string username, std::string password);
         bool changePassword(std::string username, std::string old_password, std::string new_password); // return false if old_password doesn't match current password or user doesn't exist
-        User * getUser(std::string username, std::string password); // return the address that point the User
+        User * getUser(std::string username); // return the address that point the User
     private:
         int searchUser(std::string username); // return the position of the user in _users vector
         std::vector<User> _users;
