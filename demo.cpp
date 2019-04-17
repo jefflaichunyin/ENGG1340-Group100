@@ -48,16 +48,16 @@ int main()
         cout << r->getDate() << " " << r->getAccount() << " " << r->getCategory() << " " << r->getAmount() << endl;
     }
     // NEVER DELETE A POINTER THAT POINT TO DATA INSIDE User/Records/Record!!!! Use removeXXX() or deleteYYY() instead;
-    delete Jeff; 
+//    delete Jeff; 
     // Only remove pointer that points to an object created by yourself
     // e.g. Record *r = new Record(); you can do delete r; because you create it
 
-    cout << "Unexpected error will occur below\n";
+/*    cout << "Unexpected error will occur below\n";
     for(unsigned int i=0; i<JeffRecords->countRecord(); i++)
     {
         Record *r=JeffRecords->getRecord(i);
         cout << r->getDate() << " " << r->getAccount() << " " << r->getCategory() << " " << r->getAmount() << endl;
     }
-
+*/
     return 0;
 }
