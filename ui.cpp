@@ -3,32 +3,32 @@
 #include <iostream>
 #include <string>
 using namespace std;
-int main()
+void startUI()
 {
-    int lorc=0;
+    int choice=0;
     //UserAccounts user_accounts;
     cout << "start\n";
     cout << "1. Log in\n2. Create account"<<endl;
-    while(lorc!=1 && lorc!= 2){
-        cin >> lorc;   //get user preference
+    while(choice!=1 && choice!= 2){
+        cin >> choice;   //get user preference
     //if(lorc==1){
        // if(user_account.loadUserInfo())
     //}
 
-    if (lorc==2){
+    if (choice==2){
         string *username= new string;
         string *userpw= new string;
         string *verification = new string; //double data entry for password
-        cout << "User name: " <<endl;
-        //fflush(stdout);
+        cin.ignore(); //ignore \n in read buffer
+        cout << "User name: ";
         getline(cin,*username);
-        cout << "User password: " <<endl;
-        //maskuserpw(*userpw);
-        cin >> *userpw;
-        cout << "input user password again: " <<endl;
-       // maskuserpw(*verification);
-        cin >> *verification;
-        cout<<*username<<" "<<*userpw<<endl;
+        cout << endl;
+        cout << "User password: ";
+        getline(cin, *userpw);
+        cout << endl;
+        cout << "input user password again: ";
+        getline(cin, *verification);
+        cout << *username << " " << *userpw << endl;
         }
 
     }
