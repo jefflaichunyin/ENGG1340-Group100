@@ -3,14 +3,13 @@
 #include <cstring>
 #include <ctime>
 
-
-
 //getters
 float Record::getAmount(){return _amount;}
 std::string Record::getType(){return _type;}
 std::string Record::getAccount(){return _account;}
 std::string Record::getRemark(){return _remark;}
 std::string Record::getCategory(){return _category;}
+time_t Record::getDate_t(){return _date;}
 std::string Record::getDate()
 {
     char buffer[50];

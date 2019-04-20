@@ -12,10 +12,12 @@ class User
         bool setPassword(std::string password); // only use this when password is not set yet, always use changePassword() if possible
         std::string getUsername(void); // return empty string "" if not set yet
         std::string getPassword(void); // return empty string "" if not set yet 
-        
+        bool saveRecords(void);
+        bool loadRecords(void);
     private:
         std::string _username;
         std::string _password;
+        std::string _records_path;
         Records _records;
 };
 
@@ -30,6 +32,8 @@ class UserAccounts
         bool checkPassword(std::string username, std::string password);
         bool changePassword(std::string username, std::string old_password, std::string new_password); // return false if old_password doesn't match current password or user doesn't exist
         User * getUser(std::string username); // return the address that point the User
+        bool saveUserInfo(void);
+        bool loadUserInfo(void);
     private:
         int searchUser(std::string username); // return the position of the user in _users vector
         std::vector<User> _users;

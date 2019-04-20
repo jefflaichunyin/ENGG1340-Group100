@@ -17,8 +17,7 @@ class Records
         // not implemented yet
         std::vector<int> searchRecords(unsigned int key, std::string value); // return a vector containing indexes pointing to the records
         void sortRecords(unsigned int key, bool ascending);
-        bool readRecords(std::string location);
-        bool writeRecords(std::string location);
+
 
     private:
         std::vector<Record> _records;

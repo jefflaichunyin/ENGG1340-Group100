@@ -1,5 +1,7 @@
 #include "user.h"
 #include <iostream>
+#include <fstream>
+#include <cstring>
 // Class User member function implementation
 Records * User::getUserRecords(void)
 {
@@ -42,12 +44,72 @@ std::string User::getPassword(void)
 {
     return _password;
 }
+bool User::saveRecords(void)
+{
+    std::ofstream outputfile(_records_path.c_str(), std::ios::binary);
+    if(outputfile.fail())
+    {
+        std::cout << "Failed to save records\n";
+        return false;
+    }
+    else
+    {
+        POD_Record *user_records = new POD_Record;
+        // copy user record to POD_Record so that it can be saved as binary format
+        for(unsigned int i=0; i < _records.countRecord(); i++)
+        {
+            Record *r = _records.getRecord(i);
+            user_records->date = r->getDate_t();
+            user_records->amount = r->getAmount();
+            std::strcpy(user_records->category, r->getCategory().c_str());
+            std::strcpy(user_records->type, r->getType().c_str());
+            std::strcpy(user_records->account, r->getAccount().c_str());
+            std::strcpy(user_records->type, r->getType().c_str());
+            outputfile.write((char *)user_records, sizeof(POD_Record));
+        }
+        // std::cout << "VERBOSE POD_RECORD: " << sizeof(POD_Record) << " NUM of REC " << num_of_record << std::endl;
+        outputfile.close();
+        delete user_records;
+        user_records = nullptr;
+        return true;
+    }
+}
+
+bool User::loadRecords(void)
+{
+    std::ifstream inputfile(_records_path.c_str(), std::ios::binary);
+    if(inputfile.fail())
+    {
+        std::cout << "Cannot open record file for " << _username << std::endl;
+        return false;
+    }
+    else
+    {
+        POD_Record *user_record = new POD_Record;
+        while(inputfile.read((char*)user_record, sizeof(POD_Record)))
+        {
+            Record new_record(
+                user_record->date, user_record->amount, 
+                std::string(user_record->type),
+                std::string(user_record->category),
+                std::string(user_record->account), 
+                std::string(user_record->remark)
+            );
+            getUserRecords()->addRecord(new_record);
+        }
+        delete user_record;
+        user_record = nullptr;
+        inputfile.close();
+        return true;
+    }
+}
 
 // constructor of User object
 User::User(std::string username, std::string password)
 {
     _username = username;
     _password = password;
+    _records_path = username + ".dat";
 }
 
 // Class UserAccount member function implementation
