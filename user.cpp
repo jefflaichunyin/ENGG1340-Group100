@@ -214,3 +214,50 @@ User * UserAccounts::getUser(std::string username)
         return nullptr;
     }
 }
+
+bool UserAccounts::saveUserInfo(void)
+{
+    std::ofstream outputfile("UserInfo.dat", std::ios::binary);
+    if(outputfile.fail())
+    {
+        std::cout << "Failed to save user login information\n";
+        return false;
+    }
+    else
+    {
+        POD_UserInfo *user_info = new POD_UserInfo;
+        // copy username and password to POD_UserInfo so that it can be saved as binary format
+        for(unsigned int i=0; i < _users.size(); i++)
+        {
+            strcpy(user_info->username, _users[i].getUsername().c_str());
+            strcpy(user_info->password, _users[i].getPassword().c_str());
+            outputfile.write((char *)user_info, sizeof(POD_UserInfo));
+        }
+        outputfile.close();
+        delete user_info;
+        user_info = nullptr;
+        return true;
+    }    
+}
+
+bool UserAccounts::loadUserInfo(void)
+{
+    std::ifstream inputfile("UserInfo.dat", std::ios::binary);
+    if(inputfile.fail())
+    {
+        std::cout << "Cannot load user login information\n";
+        return false;
+    }
+    else
+    {
+        POD_UserInfo *user_info = new POD_UserInfo;
+        while(inputfile.read((char*)user_info, sizeof(POD_UserInfo)))
+        {
+            addUser(std::string(user_info->username), std::string(user_info->password));
+        }
+        delete user_info;
+        user_info = nullptr;
+        inputfile.close();
+        return true;
+    }
+}

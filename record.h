@@ -14,6 +14,8 @@
 #include <string>
 #endif
 #define MAX_LENGTH 255
+
+// only use basic data type without internal pointers so that it can be save in binary file
 struct POD_Record
 {
     time_t  date;
@@ -37,7 +39,7 @@ class Record
         std::string getCategory();
         std::string getAccount();
         std::string getRemark();
-        
+
         //setters with data validation
         //return true if valid
         bool setDate(time_t date);

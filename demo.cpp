@@ -9,6 +9,8 @@ int main()
 {
     //create object user_account for user management
     UserAccounts user_account;
+    // load login info
+    user_account.loadUserInfo();
     // Create user
     cout << user_account.addUser("Jeff" , "12345") << endl;         // create new user -> sucess
     cout << user_account.addUser("Jeff" , "12345") << endl;         // try to create new user using existing username -> fail
@@ -66,8 +68,11 @@ int main()
     //     Record *r=JeffRecords->getRecord(i);
     //     cout << r->getDate() << " " << r->getAccount() << " " << r->getCategory() << " " << r->getAmount() << endl;
     // }
+
     
+    // save user reocrds
     user->saveRecords();
-    
+    // save login info
+    user_account.saveUserInfo();
     return 0;
 }
