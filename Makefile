@@ -9,7 +9,7 @@ demo: demo.o record.o records.o user.o
 	$(CXX) $(CXXFLAGS) $^ -o demo
 	./demo
 clean:
-	rm *.o
+	rm *.o *.dat
 #Executables	
 demo.o: demo.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
