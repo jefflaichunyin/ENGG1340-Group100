@@ -160,7 +160,7 @@ bool UserAccounts::checkPassword(std::string username, std::string password)
     }
     else
     {
-        std::cout << "Password correct.\n";
+        //std::cout << "Password correct.\n";
         return true;
     }
 }

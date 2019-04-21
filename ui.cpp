@@ -15,6 +15,7 @@ int uimenu1(void){
     cout << "4. Sort record\t";
     cout << "5. Delete record\t";
     cout << "6. Log out\n";
+    cout << "7. Delete accout permanently\n";
     cout << endl;
     cout<<"Make your choice: ";
     cin>> choice;
@@ -22,16 +23,13 @@ int uimenu1(void){
     return choice;
 }
 
-void uiprintrecord(string username,UserAccounts user_accounts){
+void uiprintrecord(User *user){
 
-       User *user = user_accounts.getUser(username);
-                user->loadRecords(); 
                  Records *userRecords = user->getUserRecords();
     for(unsigned int i=0; i<userRecords->countRecord(); i++)
     {
         Record *r=userRecords->getRecord(i);
         cout << r->getDate() << " " << r->getAccount() << " " << r->getCategory() << " " << r->getAmount() << endl;
-
     }
     cout << endl;
     
@@ -43,10 +41,13 @@ void startUI()
     string *username= new string;    //need to delete!!!
     string *userpw= new string;
     UserAccounts user_accounts;
-    
+    int executetime=1;
     cout << "start\n";  
     while(choice!=3){
-        cout << "1. Log in\n2. Create account\n3. Exit"<<endl;
+        
+        cout << "1. Log in\n";
+        cout << "2. Create account\n";
+        cout << "3. Exit"<<endl;
         
         cin >> choice;   //get user preference
         if(choice==1){   //log in
@@ -59,12 +60,16 @@ void startUI()
         cout << endl;
         if(user_accounts.loadUserInfo()){ 
             if(user_accounts.checkPassword(*username,*userpw)){ 
+                cout << "Password correct.\n";
                 User *user = user_accounts.getUser(*username);
-                //user->loadRecords();   
+                if(executetime==1){
+                    user->loadRecords(); 
+                    executetime++;
+                } 
 
                 bool logout=false;
                 while(!logout){ 
-                uiprintrecord(*username,user_accounts);
+                uiprintrecord(user);
 
                 int recordway = uimenu1();
                 Record *r = new Record();
@@ -78,6 +83,21 @@ void startUI()
                     user->getUserRecords()->addRecord(*r);
                     delete r;
                     break;
+                    case 2:
+
+
+
+                    break;
+                    case 3:
+
+
+
+                    break;
+                    case 4:
+
+
+
+                    break;
                     case 5:
                     user->getUserRecords()->deleteRecord(0); // 2nd record will become 1st record after deletion
                     break;
@@ -86,16 +106,28 @@ void startUI()
                     logout=true;  //log out
                     user->saveRecords();
                     break;
+                    case 7:
+                    user_accounts.removeUser(*username,*userpw);
+                    logout=true;
+                    break;
                     default:
                     cout << "No such a choice. Please try again!" <<endl;
                     break;
                 }
 
             }
+            }else
+            {
+                cout << "incorrect password." << endl;
             }
+            
           
             
+        }else
+        {
+            cout << "Cannot load user login information\n";
         }
+        
 
     }
 
@@ -110,14 +142,23 @@ void startUI()
         cout << endl;
         cout << "input user password again: ";
         getline(cin, *verification);
-        cout << *username << " " << *userpw << endl;
-        cout<< user_accounts.addUser(*username,*userpw)<<endl;
+        //cout << *username << " " << *userpw << endl;
+        if(*userpw==*verification){
+        if(user_accounts.addUser(*username,*userpw))
+        cout << "User " << *username << " is created sucessfully\n";
+        else
+        cout << "User " << *username << " already exist! Please choose another username.\n";
         //cout<<string(100,'\n');
 
         user_accounts.saveUserInfo();
         User(*username, *userpw);
         
-
+        }
+        else
+        {
+            cout << "Please input the same password twice." << endl;
+        }
+        
         }
 
     }
