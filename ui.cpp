@@ -14,10 +14,15 @@ int uimenu1(void){
     cout << "3. Filter record\n";
     cout << "4. Sort record\t";
     cout << "5. Delete record\t";
-    cout << "6. Back to main menu\n";
+    cout << "6. Log out\n";
+    cout << endl;
+    cout<<"Make your choice: ";
+    cin>> choice;
+    cout << endl;
+    return choice;
 }
 
-/*void uiprintrecord(string username,UserAccounts user_accounts){
+void uiprintrecord(string username,UserAccounts user_accounts){
 
        User *user = user_accounts.getUser(username);
                 user->loadRecords(); 
@@ -26,9 +31,11 @@ int uimenu1(void){
     {
         Record *r=userRecords->getRecord(i);
         cout << r->getDate() << " " << r->getAccount() << " " << r->getCategory() << " " << r->getAmount() << endl;
+
     }
+    cout << endl;
     
-}*/
+}
 
 void startUI()
 {
@@ -49,17 +56,46 @@ void startUI()
         cout << endl; 
         cout << "User password: ";
         getline(cin, *userpw);
-        if(user_accounts.loadUserInfo()){
+        cout << endl;
+        if(user_accounts.loadUserInfo()){ 
             if(user_accounts.checkPassword(*username,*userpw)){ 
-    
                 User *user = user_accounts.getUser(*username);
                 //user->loadRecords();   
-                //uiprintrecord(*username,user_accounts);
-                //int recordway = uimenu1();
+
+                bool logout=false;
+                while(!logout){ 
+                uiprintrecord(*username,user_accounts);
+
+                int recordway = uimenu1();
+                Record *r = new Record();
+
+                switch(recordway){  //see what the users want to do after log in
+                    case 1:
+                    //have to print all the account type!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    r->setAccount("credit card");
+                    r->setAmount(1000);
+                    r->setCategory("toys");
+                    user->getUserRecords()->addRecord(*r);
+                    delete r;
+                    break;
+                    case 5:
+                    user->getUserRecords()->deleteRecord(0); // 2nd record will become 1st record after deletion
+                    break;
+
+                    case 6:
+                    logout=true;  //log out
+                    user->saveRecords();
+                    break;
+                    default:
+                    cout << "No such a choice. Please try again!" <<endl;
+                    break;
+                }
+
             }
+            }
+          
             
         }
-
 
     }
 
