@@ -67,7 +67,6 @@ bool User::saveRecords(void)
             std::strcpy(user_records->type, r->getType().c_str());
             outputfile.write((char *)user_records, sizeof(POD_Record));
         }
-        // std::cout << "VERBOSE POD_RECORD: " << sizeof(POD_Record) << " NUM of REC " << num_of_record << std::endl;
         outputfile.close();
         delete user_records;
         user_records = nullptr;
@@ -80,7 +79,7 @@ bool User::loadRecords(void)
     std::ifstream inputfile(_records_path.c_str(), std::ios::binary);
     if(inputfile.fail())
     {
-        std::cout << "Cannot open record file for " << _username << std::endl;
+        // std::cout << "Cannot open record file for " << _username << std::endl;
         return false;
     }
     else
@@ -136,12 +135,12 @@ bool UserAccounts::addUser(std::string username, std::string password)
         User *newUser = new User(username, password);
         _users.push_back(*newUser); // copy new user to vector _users
         delete newUser;
-        std::cout << "User " << username << " is created sucessfully\n";
+        // std::cout << "User " << username << " is created sucessfully\n";
         return true; // sucessfully add the user        
     }
     else
     {
-        std::cout << "User " << username << " already exist! Please choose another username.\n";
+        // std::cout << "User " << username << " already exist! Please choose another username.\n";
         return false;
     }
 }
@@ -245,7 +244,7 @@ bool UserAccounts::loadUserInfo(void)
     std::ifstream inputfile("UserInfo.dat", std::ios::binary);
     if(inputfile.fail())
     {
-        std::cout << "Cannot load user login information\n";
+        // std::cout << "Cannot load user login information\n";
         return false;
     }
     else
