@@ -3,13 +3,16 @@ CXXFLAGS = -O3 -Wall -std=c++11
 .PHONY: clean demo
 #Targets
 all: main.o record.o records.o ui.o report.o user.o user_account.o
-	$(CXX) $(CXXFLAGS) $^ -o main
-	./main
+	mkdir -p Release
+	$(CXX) $(CXXFLAGS) $^ -o Release/SaveNow
+	cd Release;./SaveNow
+	cd ..
 demo: demo.o record.o records.o user.o user_account.o
 	$(CXX) $(CXXFLAGS) $^ -o demo
 	./demo
 clean:
-	rm *.o *.dat
+	rm *.o
+	rm -rf Release
 #Executables	
 demo.o: demo.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@

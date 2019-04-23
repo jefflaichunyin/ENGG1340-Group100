@@ -122,89 +122,93 @@ void startUI()
 		    cout << "User password: ";
 		    getline(cin, *userpw);
 		    cout << endl;
-		    if (user_accounts.loadUserInfo())
+		    if (!user_accounts.loadUserInfo())
 			{
-			    if (user_accounts.checkPassword(*username, *userpw))
-				{
-				    cout << "Password correct.\n";
-				    User *user = user_accounts.getUser(*username);
-				    if (executetime == 1)
-					{
-					    user->loadRecords();
-					    executetime++;
-					}
-
-				    bool logout = false;
-				    while (!logout)
-					{
-					    printRecord(user);
-
-					    switch (Menu1())
-						{ // see what the users want to do after log in
-						case 1:
-						{
-						    // have to print all the account
-						    // type!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-							Record *r = new Record(); //delete after use
-						    getRecordDetails(r);  //no *r
-						    user->getUserRecords()->addRecord(*r);
-                            delete r;							
-						}
-
-					    break;
-						case 2:
-							EditUserRecord(user);
-						
-						    break;
-						case 3:
-
-						    break;
-						case 4:
-
-						    break;
-						case 5:
-						    user->getUserRecords()->deleteRecord(0); // 2nd record will become 1st record after
-											     // deletion
-						    break;
-
-						case 6:
-							int preference;
-							preference = printUserManagementItems();
-						    switch(preference)
-							{
-								case 1:
-
-									cin.ignore();
-									cout << "New password: ";
-		    						getline(cin, newpassword);
-		    						cout << endl;
-								    cout << user_accounts.changePassword(*username, *userpw, newpassword) << endl;
-    								cout << user_accounts.checkPassword(*username, newpassword) << endl;
-									
-								break;
-								case 2:
-									user_accounts.removeUser(*username, *userpw);
-						    		logout = true;
-                            		user_accounts.saveUserInfo();
-									break;
-								default:
-								cout << "Not a valid choice." <<endl;
-								break;
-							}
-							cout << endl;
-						    break;
-						case 7:
-						    logout = true; // log out
-						    user->saveRecords();
-						    break;
-						default:
-						    cout << "No such a choice. Please try again!" << endl;
-						    break;
-						}
-					}
-				}
-			 
+				continue;
 			}
+			if (!user_accounts.checkPassword(*username, *userpw))
+			{
+				continue;
+			}
+			cout << "Password correct.\n";
+			User *user = user_accounts.getUser(*username);
+
+			if (executetime == 1)
+			{
+				user->loadRecords();
+				executetime++;
+			}
+
+			bool logout = false;
+			while (!logout)
+			{
+				printRecord(user);
+
+				switch (Menu1())
+				{ // see what the users want to do after log in
+				case 1:
+				{
+					// have to print all the account
+					// type!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+					Record *r = new Record(); //delete after use
+					getRecordDetails(r);  //no *r
+					user->getUserRecords()->addRecord(*r);
+					delete r;							
+				}
+
+				break;
+				case 2:
+					EditUserRecord(user);
+				
+					break;
+				case 3:
+
+					break;
+				case 4:
+
+					break;
+				case 5:
+					user->getUserRecords()->deleteRecord(0); // 2nd record will become 1st record after
+											// deletion
+					break;
+
+				case 6:
+					int action;
+					action = printUserManagementItems();
+					switch(action)
+					{
+						case 1:
+
+							cin.ignore();
+							cout << "New password: ";
+							getline(cin, newpassword);
+							cout << endl;
+							cout << user_accounts.changePassword(*username, *userpw, newpassword) << endl;
+							cout << user_accounts.checkPassword(*username, newpassword) << endl;
+							
+						break;
+						case 2:
+							user_accounts.removeUser(*username, *userpw);
+							logout = true;
+							user_accounts.saveUserInfo();
+							break;
+						default:
+						cout << "Not a valid choice." <<endl;
+						break;
+					}
+					cout << endl;
+					break;
+				case 7:
+					logout = true; // log out
+					user->saveRecords();
+					break;
+				default:
+					cout << "No such a choice. Please try again!" << endl;
+					break;
+				}
+			}
+
+			 
 
 		}
 
