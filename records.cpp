@@ -19,6 +19,10 @@ void Records::addRecord(Record record)
     _records.push_back(record);
 }
 
+void Records::clearRecords(void)
+{
+    _records.clear();
+}
 bool Records::deleteRecord(unsigned int no)
 {
     if(no >= 0 && no < _records.size())

@@ -16,13 +16,14 @@ class User
 
         // plz avoid using following functions, use functions in UserAccount instead
         bool setUsername(std::string username);
-        bool setPassword(std::string password); // only use this when password is not set yet, always use changePassword() if possible
-        std::string getUsername(void); // return empty string "" if not set yet
-        std::string getPassword(void); // return empty string "" if not set yet 
+        // only use this when password is not set yet, always use changePassword() if possible
+        bool setPassword(std::string password); 
+        std::string getUsername(void);  // return empty string "" if not set yet
+        std::string getPassword(void);  // return empty string "" if not set yet 
         bool saveRecords(void);
         bool removeRecords(void);
-        bool loadRecords(void);
-        void unloadRecords(void);
+        bool loadRecords(void);         // load records from the data file [Username].dat
+        void unloadRecords(void);       // remove loaded records from the memory to free up spaces
     private:
         std::string _username;
         std::string _password;

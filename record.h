@@ -7,7 +7,7 @@
 
 // only use basic data type without internal pointers so that it can be save in binary file
 struct POD_Record
-{
+{ 
     time_t  date;
     float amount;
     char type[MAX_LENGTH];

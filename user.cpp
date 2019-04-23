@@ -120,7 +120,7 @@ bool User::loadRecords(void)
 
 void User::unloadRecords(void)
 {
-
+    _records.clearRecords();
 }
 
 // constructor of User object
