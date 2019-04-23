@@ -3,9 +3,21 @@
 
 using namespace std;
 
-void clearScreen() 
+void ClearScreen() 
 { 
 	cout << string(100, '\n'); 
+}
+
+void printRecord(User *user)
+{
+    Records *userRecords = user->getUserRecords();
+    for (unsigned int i = 0; i < userRecords->countRecord(); i++)
+	{
+	    Record *r = userRecords->getRecord(i);
+	    cout << i+1 << ". " << r->getDate() << " " << setw(18)<< left <<r->getAccount() <<setw(18)<< left<< r->getCategory() << setw(2)<<"$"<<setw(10)<<left<< r->getAmount() << endl;
+
+	}
+    cout << endl;
 }
 
 void getRecordDetails(Record * &r)
@@ -28,12 +40,35 @@ void getRecordDetails(Record * &r)
 	r->setCategory(category);
 }
 
-void printUserManagementItems()
+void EditUserRecord(User *user)
 {
+	int EditRecordNo;
+	printRecord(user);
+	cout << "Number of record to be edit: ";
+	cin >> EditRecordNo;
+	cout << endl;
+
+	EditRecordNo-=1; //The number of records printed start from 1
+
+	Record *q = new Record();
+	
+	getRecordDetails(q);
+	user->getUserRecords()->replaceRecord(EditRecordNo, *q);
+
+
+}
+
+int printUserManagementItems()
+{
+	int userpreference;
 	cout << "1. Change password\n";
-	cout << "2. Category type management\n";
-	cout << "3. Account type management\n";
-	cout << "4. Delete user account permanently\n";
+	cout << "2. Delete user account permanently\n";
+	cout << endl;
+
+	cout << "Your choice: ";
+	cin >> userpreference;
+	return userpreference;
+
 }
 
 int Menu1(void)
@@ -53,25 +88,15 @@ int Menu1(void)
     return choice;
 }
 
-void printRecord(User *user)
-{
-    Records *userRecords = user->getUserRecords();
-    for (unsigned int i = 0; i < userRecords->countRecord(); i++)
-	{
-	    Record *r = userRecords->getRecord(i);
-	    cout << r->getDate() << " " << setw(18)<< left <<r->getAccount() <<setw(18)<< left<< r->getCategory() << setw(2)<<"$"<<setw(10)<<left<< r->getAmount() << endl;
-
-	}
-    cout << endl;
-}
-
 void startUI()
 {
     int choice = 0;
     string *username = new string; // need to delete!!!
     string *userpw = new string;
     UserAccounts user_accounts;
+	string newpassword;
     int executetime = 1;
+	ClearScreen();
     cout << "start\n";
     while (choice != 3)
 	{
@@ -80,9 +105,17 @@ void startUI()
 	    cout << "2. Create account\n";
 	    cout << "3. Exit" << endl;
 
+		cout << endl ;
+
+		cout << "Your choice: " ;
 	    cin >> choice; // get user choice
+
+		cout << endl;
+
+
 	    if (choice == 1)
-		{		  // log in
+		{	
+			// log in
 		    cin.ignore(); // ignore \n in read buffer
 		    cout << "User name: ";
 		    getline(cin, *username);
@@ -121,7 +154,8 @@ void startUI()
 
 					    break;
 						case 2:
-
+							EditUserRecord(user);
+						
 						    break;
 						case 3:
 
@@ -135,10 +169,30 @@ void startUI()
 						    break;
 
 						case 6:
-							printUserManagementItems();
-						    user_accounts.removeUser(*username, *userpw);
-						    logout = true;
-                            user_accounts.saveUserInfo();
+							int preference;
+							preference = printUserManagementItems();
+						    switch(preference)
+							{
+								case 1:
+
+									cin.ignore();
+									cout << "New password: ";
+		    						getline(cin, newpassword);
+		    						cout << endl;
+								    user_accounts.changePassword(*username, *userpw, newpassword) << endl;
+    								user_accounts.checkPassword(*username, newpassword) << endl;
+									
+								break;
+								case 2:
+									user_accounts.removeUser(*username, *userpw);
+						    		logout = true;
+                            		user_accounts.saveUserInfo();
+									break;
+								default:
+								cout << "Not a valid choice." <<endl;
+								break;
+							}
+							cout << endl;
 						    break;
 						case 7:
 						    logout = true; // log out
