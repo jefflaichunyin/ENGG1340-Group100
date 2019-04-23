@@ -77,6 +77,18 @@ bool User::saveRecords(void)
     }
 }
 
+bool User::removeRecords(void)
+{
+    if(!remove(_records_path.c_str()))
+    {
+        std::cout << "Failed to remove user records\n";
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
 bool User::loadRecords(void)
 {
     std::ifstream inputfile(_records_path.c_str(), std::ios::binary);
@@ -104,6 +116,11 @@ bool User::loadRecords(void)
         inputfile.close();
         return true;
     }
+}
+
+void User::unloadRecords(void)
+{
+
 }
 
 // constructor of User object

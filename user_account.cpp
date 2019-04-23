@@ -60,6 +60,7 @@ bool UserAccounts::removeUser(std::string username, std::string password)
 {
     if(checkPassword(username, password) == true)
     {
+        getUser(username)->removeRecords();
         _users.erase(_users.begin() + searchUser(username));
         std::cout << username << " is deleted.\n";
         return true;
@@ -148,6 +149,6 @@ bool UserAccounts::loadUserInfo(void)
         delete user_info;
         user_info = nullptr;
         inputfile.close();
-        return true;
+        return (_users.size()>0); // return false if no existing user
     }
 }

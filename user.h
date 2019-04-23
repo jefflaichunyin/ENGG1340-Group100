@@ -20,7 +20,9 @@ class User
         std::string getUsername(void); // return empty string "" if not set yet
         std::string getPassword(void); // return empty string "" if not set yet 
         bool saveRecords(void);
+        bool removeRecords(void);
         bool loadRecords(void);
+        void unloadRecords(void);
     private:
         std::string _username;
         std::string _password;
