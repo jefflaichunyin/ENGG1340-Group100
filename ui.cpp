@@ -1,8 +1,40 @@
 #include "ui.h"
 #include "user.h"
+#include <iomanip>
 using namespace std;
 
-void clearScreen() { cout << string(100, '\n'); }
+void clearScreen() 
+{ 
+	cout << string(100, '\n'); 
+}
+
+void uiaddrecord(Record * &r)
+{
+	string account,category;
+	float amount;
+	cin.ignore();
+	cout << "Account: ";
+	getline(cin,account);
+	cout << endl;
+	cout << "Category: ";
+	getline(cin,category);
+	cout << endl;
+	cout << "Amount: ";
+	cin >> amount;
+	cout << endl;
+
+	r->setAccount(account);
+	r->setAmount(amount);
+	r->setCategory(category);
+}
+
+void uiprintmanagementmenu()
+{
+	cout << "1. Change password\n";
+	cout << "2. Category type management\n";
+	cout << "3. Account type management\n";
+	cout << "4. Delete user account permanently\n";
+}
 
 int Menu1(void)
 {
@@ -12,8 +44,8 @@ int Menu1(void)
     cout << "3. Filter record\n";
     cout << "4. Sort record\t";
     cout << "5. Delete record\t";
-    cout << "6. Log out\n";
-    cout << "7. Delete accout permanently\n";
+    cout << "6. Manage user account\n";
+    cout << "7. Log out\n";
     cout << endl;
     cout << "Make your choice: ";
     cin >> choice;
@@ -27,7 +59,8 @@ void printRecord(User *user)
     for (unsigned int i = 0; i < userRecords->countRecord(); i++)
 	{
 	    Record *r = userRecords->getRecord(i);
-	    cout << r->getDate() << " " << r->getAccount() << " " << r->getCategory() << " " << r->getAmount() << endl;
+	    cout << r->getDate() << " " << setw(18)<< left <<r->getAccount() <<setw(18)<< left<< r->getCategory() << setw(2)<<"$"<<setw(10)<<left<< r->getAmount() << endl;
+
 	}
     cout << endl;
 }
@@ -75,16 +108,14 @@ void startUI()
 					    printRecord(user);
 
 					    int recordway = Menu1();
-					    Record *r = new Record();
+					    Record *r = new Record(); //delete after use
 
 					    switch (recordway)
 						{ // see what the users want to do after log in
 						case 1:
 						    // have to print all the account
 						    // type!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-						    r->setAccount("credit card");
-						    r->setAmount(1000);
-						    r->setCategory("toys");
+						    uiaddrecord(r);  //no *r
 						    user->getUserRecords()->addRecord(*r);
                             delete r;
 					    break;
@@ -103,13 +134,14 @@ void startUI()
 						    break;
 
 						case 6:
-						    logout = true; // log out
-						    user->saveRecords();
-						    break;
-						case 7:
+							uiprintmanagementmenu();
 						    user_accounts.removeUser(*username, *userpw);
 						    logout = true;
                             user_accounts.saveUserInfo();
+						    break;
+						case 7:
+						    logout = true; // log out
+						    user->saveRecords();
 						    break;
 						default:
 						    cout << "No such a choice. Please try again!" << endl;
@@ -118,15 +150,9 @@ void startUI()
 						}
 					}
 				}
-			    else
-				{
-				    cout << "Incorrect password. Please try again." << endl;
-				}
+			 
 			}
-		    else
-			{
-			    cout << "User " << *username << " does not exist.\n";
-			}
+
 		}
 
 	    if (choice == 2)
@@ -141,14 +167,13 @@ void startUI()
 		    cout << endl;
 		    cout << "Please type the password again: ";
 		    getline(cin, *verification);
-		    // cout << *username << " " << *userpw << endl;
+
 		    if (*userpw == *verification)
 			{
 			    if (user_accounts.addUser(*username, *userpw))
 				cout << "User " << *username << " is created sucessfully\n";
 			    else
 				cout << "User " << *username << " already exist! Please choose another username.\n";
-			    // cout<<string(100,'\n');
 
 			    user_accounts.saveUserInfo();
 			    User(*username, *userpw);
