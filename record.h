@@ -1,14 +1,4 @@
 // The class "Record" is used to store details of a single transaction
-#ifndef CTIME_H
-#define CTIME_H
-#include <ctime>
-#endif
-
-#ifndef VECTOR_H
-#define VECTOR_H
-#include <vector>
-#endif
-
 #ifndef STRING_H
 #define STRING_H
 #include <string>

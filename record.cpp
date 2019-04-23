@@ -2,6 +2,7 @@
 #include <cctype>
 #include <cstring>
 #include <ctime>
+#include <vector>
 
 //getters
 float Record::getAmount(){return _amount;}

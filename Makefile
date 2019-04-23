@@ -2,10 +2,10 @@ CXX = g++
 CXXFLAGS = -O3 -Wall -std=c++11
 .PHONY: clean demo
 #Targets
-all: main.o record.o records.o ui.o report.o user.o
+all: main.o record.o records.o ui.o report.o user.o user_account.o
 	$(CXX) $(CXXFLAGS) $^ -o main
 	./main
-demo: demo.o record.o records.o user.o
+demo: demo.o record.o records.o user.o user_account.o
 	$(CXX) $(CXXFLAGS) $^ -o demo
 	./demo
 clean:
@@ -25,4 +25,6 @@ ui.o: ui.cpp ui.h
 report.o: report.cpp report.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 user.o: user.cpp user.h
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+user_account.o: user_account.cpp user_account.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@

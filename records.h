@@ -1,10 +1,6 @@
 // This class "Records" is used to manage a collection of records of an user
-#ifndef RECORD_H
-#define RECORD_H
 #include "record.h"
-#endif
 #include <vector>
-#include <string>
 class Records
 {
     public:

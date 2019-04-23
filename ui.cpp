@@ -1,5 +1,4 @@
 #include "ui.h"
-#include "user.h"
 
 using namespace std;
 
@@ -179,8 +178,8 @@ void startUI()
 									cout << "New password: ";
 		    						getline(cin, newpassword);
 		    						cout << endl;
-								    user_accounts.changePassword(*username, *userpw, newpassword) << endl;
-    								user_accounts.checkPassword(*username, newpassword) << endl;
+								    cout << user_accounts.changePassword(*username, *userpw, newpassword) << endl;
+    								cout << user_accounts.checkPassword(*username, newpassword) << endl;
 									
 								break;
 								case 2:
