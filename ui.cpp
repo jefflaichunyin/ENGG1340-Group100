@@ -1,6 +1,6 @@
 #include "ui.h"
 #include "user.h"
-#include <iomanip>
+
 using namespace std;
 
 void clearScreen() 
@@ -8,7 +8,7 @@ void clearScreen()
 	cout << string(100, '\n'); 
 }
 
-void uiaddrecord(Record * &r)
+void getRecordDetails(Record * &r)
 {
 	string account,category;
 	float amount;
@@ -28,7 +28,7 @@ void uiaddrecord(Record * &r)
 	r->setCategory(category);
 }
 
-void uiprintmanagementmenu()
+void printUserManagementItems()
 {
 	cout << "1. Change password\n";
 	cout << "2. Category type management\n";
@@ -80,7 +80,7 @@ void startUI()
 	    cout << "2. Create account\n";
 	    cout << "3. Exit" << endl;
 
-	    cin >> choice; // get user preference
+	    cin >> choice; // get user choice
 	    if (choice == 1)
 		{		  // log in
 		    cin.ignore(); // ignore \n in read buffer
@@ -107,17 +107,18 @@ void startUI()
 					{
 					    printRecord(user);
 
-					    int recordway = Menu1();
-					    Record *r = new Record(); //delete after use
-
-					    switch (recordway)
+					    switch (Menu1())
 						{ // see what the users want to do after log in
 						case 1:
+						{
 						    // have to print all the account
 						    // type!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-						    uiaddrecord(r);  //no *r
+							Record *r = new Record(); //delete after use
+						    getRecordDetails(r);  //no *r
 						    user->getUserRecords()->addRecord(*r);
-                            delete r;
+                            delete r;							
+						}
+
 					    break;
 						case 2:
 
@@ -134,7 +135,7 @@ void startUI()
 						    break;
 
 						case 6:
-							uiprintmanagementmenu();
+							printUserManagementItems();
 						    user_accounts.removeUser(*username, *userpw);
 						    logout = true;
                             user_accounts.saveUserInfo();
@@ -146,7 +147,6 @@ void startUI()
 						default:
 						    cout << "No such a choice. Please try again!" << endl;
 						    break;
-			
 						}
 					}
 				}
