@@ -19,6 +19,37 @@ float User::getTotalIncome(void)
     }
     return total_income;
 }
+float User::getCategoryIncome(std::string category)
+{
+    for(auto &c : category)
+        c=toupper(c);
+    float category_income=0;
+    Records *user_records = getUserRecords();
+    for(unsigned int i=0; i< user_records->countRecord(); i++)
+    {
+        Record *r = user_records->getRecord(i);
+        if(r->getType()=="INCOME"&& r->getCategory()==category)
+            category_income += r->getAmount();
+    }
+    return category_income;
+}
+
+float User::getCategoryExpense(std::string category)
+{
+    for(auto &c : category)
+        c=toupper(c);
+
+    float category_expense=0;
+    Records *user_records = getUserRecords();
+    for(unsigned int i=0; i< user_records->countRecord(); i++)
+    {
+        Record *r = user_records->getRecord(i);
+        if(r->getType()=="EXPENSE" && r->getCategory()==category)
+            category_expense += r->getAmount();
+    }
+    return category_expense;
+}
+
 float User::getTotalExpense(void)
 {
     float total_expense=0;
