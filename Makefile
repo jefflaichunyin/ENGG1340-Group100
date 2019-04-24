@@ -23,7 +23,7 @@ record.o: record.cpp record.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 records.o: records.cpp records.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
-ui.o: ui.cpp ui.h
+ui.o: ui.cpp ui.h RecordEditor.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 report.o: report.cpp report.h
 	$(CXX) $(CXXFLAGS) -c $< -o $@
