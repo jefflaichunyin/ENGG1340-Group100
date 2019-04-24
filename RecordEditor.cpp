@@ -38,20 +38,16 @@ void getRecordDetails(Record * &r)
 
 void EditUserRecord(User *user)
 {
-	int EditRecordNo;
+	int id;
 	printRecord(user->getUserRecords());
-	cout << "Number of record to be edit: ";
-	cin >> EditRecordNo;
+	cout << "Please enter the ID of the record: ";
+	cin >> id;
 	cout << endl;
 
-	EditRecordNo-=1; //The number of records printed start from 1
-
-	Record *q = new Record();
-	
-	getRecordDetails(q);
-	user->getUserRecords()->replaceRecord(EditRecordNo, *q);
-
-
+	Record *new_record = new Record();
+	getRecordDetails(new_record);
+	new_record->setID(id);
+	user->getUserRecords()->replaceRecord(id-1, *new_record);
 }
 
 int printUserManagementItems()
