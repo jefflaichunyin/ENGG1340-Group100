@@ -1,5 +1,10 @@
 using namespace std;
 
+void ClearScreen() 
+{ 
+	std::cout << std::string(100, '\n'); 
+}
+
 void printRecord(User *user)
 {
     Records *userRecords = user->getUserRecords();

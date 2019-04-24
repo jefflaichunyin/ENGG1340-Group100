@@ -1,6 +1,7 @@
 #include "records.h"
 #include <vector>
 #include <fstream>
+#include <iostream> //debug
 unsigned int Records::countRecord(void)
 {
     return _records.size();
@@ -49,7 +50,55 @@ bool Records::replaceRecord(unsigned int no, Record record)
     }
 }
 
-void Records::sortRecords(unsigned int key, bool ascending)
+void Records::swapRecords(unsigned int a, unsigned int b)
 {
-    // not implemented yet
+    Record tmp = _records[a];
+    _records[a] = _records[b];
+    _records[b] = tmp;
+}
+void Records::sortRecords(Field field, bool ascending)
+{
+    unsigned int num_of_records = countRecord();
+    // selection sort is used as it's simple and more efficient than bubble sort
+    for(unsigned int i=0; i<num_of_records-1; i++)
+    {
+        unsigned int target = i; // position of n-th record
+        for(unsigned int j = i+1; j<num_of_records; j++)
+        {
+            if(field == DATE)
+            {
+                if( (ascending) ? (_records[j].getDate_t() < _records[i].getDate_t()) : (_records[j].getDate_t() > _records[i].getDate_t()))
+                    target = j;
+            }
+            if(field == AMOUNT)
+            {
+                if( (ascending) ? (_records[j].getAmount() < _records[i].getAmount()) : (_records[j].getAmount() > _records[i].getAmount()))
+                    target = j;
+            }
+            if(field == TYPE)
+            {
+                if( (ascending) ? (_records[j].getType() < _records[i].getType()) : (_records[j].getType() > _records[i].getType()))
+                    target = j;
+            }
+            if(field == CATEGORY)
+            {
+                if( (ascending) ? (_records[j].getCategory() < _records[i].getCategory()) : (_records[j].getCategory() > _records[i].getCategory()))
+                    target = j;
+            }
+            if(field == ACCOUNT)
+            {
+                if( (ascending) ? (_records[j].getAccount() < _records[i].getAccount()) : (_records[j].getAccount() > _records[i].getAccount()))
+                    target = j;
+            }
+        }
+        if(i!=target)
+            swapRecords(i, target);
+    }
+
+}
+
+std::vector<Record> searchRecords(unsigned int key, std::string value)
+{
+    std::vector<Record> result;
+    return result;
 }

@@ -2,9 +2,21 @@
 #include <string>
 #include <ctime>
 
-#include "user.h"
+//#include "user.h"
+#include "user_account.h"
 
 using namespace std;
+
+
+void printRecords(Records *userRecords)
+{
+    // print records
+    for(unsigned int i=0; i<userRecords->countRecord(); i++)
+    {
+        Record *r=userRecords->getRecord(i);
+        cout << r->getDate() << " " << r->getAccount() << " " << r->getCategory() << " " << r->getAmount() << endl;
+    }
+}
 int main()
 {
     //create object user_account for user management
@@ -29,7 +41,7 @@ int main()
     // Create new records
     Record *r = new Record();
     r->setAccount("credit card");
-    r->setAmount(1000);
+    r->setAmount(10);
     r->setCategory("toys");
     // Add new record to user
 
@@ -39,24 +51,39 @@ int main()
     Records *userRecords = user->getUserRecords();
     userRecords->addRecord(*r);
 
+    r->setAccount("bank");
+    r->setAmount(200);
+    r->setCategory("food");
+    userRecords->addRecord(*r);
+
+    r->setAccount("cash");
+    r->setAmount(3000);
+    r->setCategory("gadget");
+    userRecords->addRecord(*r);
+
     delete r; // record is added, no longer useful, delete it to save memory
 
-    // print records
-    for(unsigned int i=0; i<userRecords->countRecord(); i++)
-    {
-        Record *r=userRecords->getRecord(i);
-        cout << r->getDate() << " " << r->getAccount() << " " << r->getCategory() << " " << r->getAmount() << endl;
-    }
+    printRecords(userRecords);
     // delete the first record
-    user->getUserRecords()->deleteRecord(0); // 2nd record will become 1st record after deletion
+    // user->getUserRecords()->deleteRecord(0); // 2nd record will become 1st record after deletion
 
     // print record
-    cout << "After deleting first record\n";
-    for(unsigned int i=0; i<userRecords->countRecord(); i++)
-    {
-        Record *r=userRecords->getRecord(i);
-        cout << r->getDate() << " " << r->getAccount() << " " << r->getCategory() << " " << r->getAmount() << endl;
-    }
+    cout << "sort by date\n";
+    userRecords->sortRecords(DATE, false);
+    printRecords(userRecords);
+
+    cout << "sort by amount\n";
+    userRecords->sortRecords(AMOUNT, false);
+    printRecords(userRecords);
+
+    cout << "sort by category\n";
+    userRecords->sortRecords(CATEGORY, false);
+    printRecords(userRecords);
+
+    cout << "sort by account\n";
+    userRecords->sortRecords(ACCOUNT, false);
+    printRecords(userRecords);
+
     // NEVER DELETE A POINTER THAT POINT TO DATA INSIDE User/Records/Record!!!! Use removeXXX() or deleteYYY() instead;
     // delete Jeff; 
     // Only remove pointer that points to an object created by yourself
