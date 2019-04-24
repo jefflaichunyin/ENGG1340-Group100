@@ -5,9 +5,8 @@ void ClearScreen()
 	std::cout << std::string(100, '\n'); 
 }
 
-void printRecord(User *user)
+void printRecord(Records *userRecords)
 {
-    Records *userRecords = user->getUserRecords();
     for (unsigned int i = 0; i < userRecords->countRecord(); i++)
 	{
 	    Record *r = userRecords->getRecord(i);
@@ -40,7 +39,7 @@ void getRecordDetails(Record * &r)
 void EditUserRecord(User *user)
 {
 	int EditRecordNo;
-	printRecord(user);
+	printRecord(user->getUserRecords());
 	cout << "Number of record to be edit: ";
 	cin >> EditRecordNo;
 	cout << endl;
@@ -91,7 +90,7 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 	user->loadRecords();
 	while (!logout)
 	{
-		printRecord(user);
+		printRecord(user->getUserRecords());
 		switch (Menu1())
 		{ // see what the users want to do after log in
 			case 1:
