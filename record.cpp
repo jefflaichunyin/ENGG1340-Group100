@@ -3,8 +3,8 @@
 #include <cstring>
 #include <ctime>
 #include <vector>
-
 //getters
+unsigned int Record::getID(){return _id;}
 float Record::getAmount(){return _amount;}
 std::string Record::getType(){return _type;}
 std::string Record::getAccount(){return _account;}
@@ -19,6 +19,10 @@ std::string Record::getDate()
     return date_str;
 }
 //setters
+void Record::setID(unsigned int ID)
+{
+    _id = ID;
+}
 bool Record::setDate(time_t date)
 {
     _date=date;

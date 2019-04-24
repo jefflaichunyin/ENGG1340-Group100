@@ -1,7 +1,6 @@
 #include "records.h"
 #include <vector>
 #include <fstream>
-#include <iostream> //debug
 unsigned int Records::countRecord(void)
 {
     return _records.size();
@@ -17,6 +16,7 @@ Record * Records::getRecord(unsigned int no)
 
 void Records::addRecord(Record record)
 {
+    record.setID(countRecord()+1);
     _records.push_back(record);
 }
 
@@ -29,6 +29,7 @@ bool Records::deleteRecord(unsigned int no)
     if(no >= 0 && no < _records.size())
     {
         _records.erase(_records.begin() + no);
+        normalizeID();
         return true;
     }
     else
@@ -50,6 +51,15 @@ bool Records::replaceRecord(unsigned int no, Record record)
     }
 }
 
+void Records::normalizeID(void)
+{
+    sortRecords(ID, true);
+    for(unsigned int i=0; i<countRecord(); i++)
+    {
+        getRecord(i)->setID(i+1);
+    }
+}
+
 void Records::swapRecords(unsigned int a, unsigned int b)
 {
     Record tmp = _records[a];
@@ -65,40 +75,89 @@ void Records::sortRecords(Field field, bool ascending)
         unsigned int target = i; // position of n-th record
         for(unsigned int j = i+1; j<num_of_records; j++)
         {
-            if(field == DATE)
+            if(field == ID)
             {
-                if( (ascending) ? (_records[j].getDate_t() < _records[i].getDate_t()) : (_records[j].getDate_t() > _records[i].getDate_t()))
+                // std::cout << "A: " << _records[j].getID() << " B: " <<  _records[i].getID() << std::endl;
+                if( (ascending) ? (_records[j].getID() < _records[target].getID()) : (_records[j].getID() > _records[target].getID()))
                     target = j;
             }
-            if(field == AMOUNT)
+            else if(field == DATE)
             {
-                if( (ascending) ? (_records[j].getAmount() < _records[i].getAmount()) : (_records[j].getAmount() > _records[i].getAmount()))
+                if( (ascending) ? (_records[j].getDate_t() < _records[target].getDate_t()) : (_records[j].getDate_t() > _records[target].getDate_t()))
                     target = j;
             }
-            if(field == TYPE)
+            else if(field == AMOUNT)
             {
-                if( (ascending) ? (_records[j].getType() < _records[i].getType()) : (_records[j].getType() > _records[i].getType()))
+                if( (ascending) ? (_records[j].getAmount() < _records[target].getAmount()) : (_records[j].getAmount() > _records[target].getAmount()))
                     target = j;
             }
-            if(field == CATEGORY)
+            else if(field == TYPE)
             {
-                if( (ascending) ? (_records[j].getCategory() < _records[i].getCategory()) : (_records[j].getCategory() > _records[i].getCategory()))
+                if( (ascending) ? (_records[j].getType() < _records[target].getType()) : (_records[j].getType() > _records[target].getType()))
                     target = j;
             }
-            if(field == ACCOUNT)
+            else if(field == CATEGORY)
             {
-                if( (ascending) ? (_records[j].getAccount() < _records[i].getAccount()) : (_records[j].getAccount() > _records[i].getAccount()))
+                if( (ascending) ? (_records[j].getCategory() < _records[target].getCategory()) : (_records[j].getCategory() > _records[target].getCategory()))
+                    target = j;
+            }
+            else if(field == ACCOUNT)
+            {
+                if( (ascending) ? (_records[j].getAccount() < _records[target].getAccount()) : (_records[j].getAccount() > _records[target].getAccount()))
                     target = j;
             }
         }
         if(i!=target)
             swapRecords(i, target);
     }
-
 }
 
-std::vector<Record> searchRecords(unsigned int key, std::string value)
+Records * Records::searchRecords(Field field, std::string keyword)
 {
-    std::vector<Record> result;
+    // Capitalize keyword, so that the search is case-insensitive
+    for(auto &c : keyword)
+        c=toupper(c);
+
+    Records *result = new Records;
+    unsigned int num_of_records = countRecord();
+    for(unsigned int i=0; i<num_of_records; i++)
+    {
+        std::string FieldContent;
+        Record *candidate = getRecord(i); // never change candidate, it points to original record
+        if(field == ID)
+        {
+            FieldContent = std::to_string(candidate->getID());
+        }
+        else if(field == DATE)
+        {
+            FieldContent = candidate->getDate();
+        }
+        else if(field == AMOUNT)
+        {
+            FieldContent = std::to_string(candidate->getAmount());
+        }
+        else if(field == TYPE)
+        {
+            FieldContent = candidate->getType();
+        }
+        else if(field == CATEGORY)
+        {
+            FieldContent = candidate->getCategory();
+        }
+        else if(field == ACCOUNT)
+        {
+            FieldContent = candidate->getAccount();
+        }
+        else if(field == REMARK)
+        {
+            FieldContent = candidate->getRemark();
+        }
+
+        if(FieldContent.find(keyword) != std::string::npos) // FieldContent contain keyword
+        {
+            result->addRecord(*candidate); // add i-th target to result
+            result->getRecord(result->countRecord()-1)->setID(candidate->getID());
+        } 
+    }
     return result;
 }

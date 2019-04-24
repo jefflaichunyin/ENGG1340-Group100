@@ -2,25 +2,23 @@
 #include "record.h"
 #include <vector>
 
-enum Field{DATE,AMOUNT,TYPE,CATEGORY,ACCOUNT,REMARK};
+enum Field{ID,DATE,AMOUNT,TYPE,CATEGORY,ACCOUNT,REMARK};
 
 class Records
 {
     public:
-        
         unsigned int countRecord(void); // return number of records
         Record * getRecord(unsigned int no); // return the address of the n-th record, return NULL if n is out of range
         void addRecord(Record record);
         void clearRecords(void);
         bool deleteRecord(unsigned int no);
         bool replaceRecord(unsigned int no, Record record);
-        
-        // not implemented yet
-        std::vector<Record> searchRecords(unsigned int key, std::string value); // return a vector containing indexes pointing to the records
+        // return a pointer pointing to Records object containing the result, delete it when not useful anymore
+        Records * searchRecords(Field field, std::string keyword); 
         void sortRecords(Field field, bool ascending);
-
-
+    
     private:
+        void normalizeID(void);
         void swapRecords(unsigned int a, unsigned int b); // swap two records
         std::vector<Record> _records;
 };

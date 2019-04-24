@@ -10,7 +10,7 @@ void printRecord(Records *userRecords)
     for (unsigned int i = 0; i < userRecords->countRecord(); i++)
 	{
 	    Record *r = userRecords->getRecord(i);
-	    cout << i+1 << ". " << r->getDate() << " " << setw(18)<< left <<r->getAccount() <<setw(18)<< left<< r->getCategory() << setw(2)<<"$"<<setw(10)<<left<< r->getAmount() << endl;
+	    cout << r->getID() << ". " << r->getDate() << " " << setw(18)<< left <<r->getAccount() <<setw(18)<< left<< r->getCategory() << setw(2)<<"$"<<setw(10)<<left<< r->getAmount() << endl;
 
 	}
     cout << endl;
@@ -105,7 +105,10 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 			}
 			case 2:
 			{
-				EditUserRecord(user);
+				if(user->getUserRecords()->countRecord()==0)
+					cout << "No record at the moment, please add some records first.\n";
+				else
+					EditUserRecord(user);
 				break;				
 			}
 			case 3:

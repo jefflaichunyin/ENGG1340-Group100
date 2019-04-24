@@ -14,7 +14,7 @@ void printRecords(Records *userRecords)
     for(unsigned int i=0; i<userRecords->countRecord(); i++)
     {
         Record *r=userRecords->getRecord(i);
-        cout << r->getDate() << " " << r->getAccount() << " " << r->getCategory() << " " << r->getAmount() << endl;
+        cout << r->getID() << " " << r->getDate() << " " << r->getAccount() << " " << r->getCategory() << " " << r->getAmount() << endl;
     }
 }
 int main()
@@ -84,6 +84,22 @@ int main()
     userRecords->sortRecords(ACCOUNT, false);
     printRecords(userRecords);
 
+    cout << "sort by id ascending\n";
+    userRecords->sortRecords(ID, true);
+    printRecords(userRecords);
+
+    cout << "search for category = food\n";
+    // userRecords create a new set of records containing the result and return a pointer pointing to those records
+    // deleting the result won't affect user existing records
+    Records *result = userRecords->searchRecords(CATEGORY,"FOOD");
+    printRecords(result);
+    delete result; // size of result may be large, must delete everytime
+    result = nullptr;
+    cout << "search for amount = 3000\n";
+    result = userRecords->searchRecords(AMOUNT,"3000");
+    printRecords(result);
+    delete result; // size of result may be large, must delete everytime
+    result = nullptr;
     // NEVER DELETE A POINTER THAT POINT TO DATA INSIDE User/Records/Record!!!! Use removeXXX() or deleteYYY() instead;
     // delete Jeff; 
     // Only remove pointer that points to an object created by yourself
