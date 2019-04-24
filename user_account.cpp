@@ -122,6 +122,8 @@ bool UserAccounts::saveUserInfo(void)
         {
             strcpy(user_info->username, _users[i].getUsername().c_str());
             strcpy(user_info->password, _users[i].getPassword().c_str());
+            user_info->saving_goal = _users[i].getSavingGoal();
+            user_info->deadline = _users[i].getDeadline_t();
             outputfile.write((char *)user_info, sizeof(POD_UserInfo));
         }
         outputfile.close();
@@ -145,6 +147,7 @@ bool UserAccounts::loadUserInfo(void)
         while(inputfile.read((char*)user_info, sizeof(POD_UserInfo)))
         {
             addUser(std::string(user_info->username), std::string(user_info->password));
+            _users[_users.size()-1].setSavingGoal_t(user_info->saving_goal, user_info->deadline);
         }
         delete user_info;
         user_info = nullptr;

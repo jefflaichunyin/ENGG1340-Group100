@@ -4,8 +4,157 @@
 #include <string>
 #include <vector>
 #include <cstring>
+#include <ctime>
 
 // Class User member function implementation
+float User::getTotalIncome(void)
+{
+    float total_income=0;
+    Records *user_records = getUserRecords();
+    for(unsigned int i=0; i< user_records->countRecord(); i++)
+    {
+        Record *r = user_records->getRecord(i);
+        if(r->getType()=="INCOME")
+            total_income += r->getAmount();
+    }
+    return total_income;
+}
+float User::getTotalExpense(void)
+{
+    float total_expense=0;
+    Records *user_records = getUserRecords();
+    for(unsigned int i=0; i< user_records->countRecord(); i++)
+    {
+        Record *r = user_records->getRecord(i);
+        if(r->getType()=="EXPENSE")
+            total_expense += r->getAmount();
+    }
+    return total_expense;
+}
+
+float User::getMonthlyIncome()
+{
+    float income = 0;
+    time_t current_t = time(nullptr);
+    
+    Records *user_records = getUserRecords();
+    for(unsigned int i=0; i< user_records->countRecord(); i++)
+    {
+        Record *r = user_records->getRecord(i);
+        time_t record_t = r->getDate_t();
+        if(r->getType()=="INCOME" && localtime(&current_t)->tm_mon == localtime(&record_t)->tm_mon)
+            income += r->getAmount();
+    }
+    return income;
+}
+
+float User::getMonthlyExpense()
+{
+    float expense = 0;
+    time_t current_t = time(nullptr);
+    
+    Records *user_records = getUserRecords();
+    for(unsigned int i=0; i< user_records->countRecord(); i++)
+    {
+        Record *r = user_records->getRecord(i);
+        time_t record_t = r->getDate_t();
+        if(r->getType()=="EXPENSE" && localtime(&current_t)->tm_mon == localtime(&record_t)->tm_mon)
+            expense += r->getAmount();
+    }
+    return expense;
+}
+
+std::string User::getDeadline(void)
+{
+    if(_deadline > 0)
+    {
+        char buffer[50];
+        std::strftime(buffer, 50, "%B-%Y", std::localtime(&_deadline));
+        std::string date_str(buffer);
+        return date_str;
+    }
+    else
+    {
+        return "Deadline is not set yet.";
+    }
+}
+time_t User::getDeadline_t(void)
+{
+    return _deadline;
+}
+
+float User::getSavingGoal(void)
+{
+    return _saving_goal;
+}
+
+bool User::setSavingGoal_t(float amount, time_t deadline)
+{
+    if(amount>0 && deadline>0)
+    {
+        _saving_goal = amount;
+        _deadline = deadline;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+    
+}
+
+bool User::setSavingGoal(float amount, int month, int year)
+{
+    if(amount>0 && month>0 && year>=1990)
+    {
+        time_t deadline_t;
+        time(&deadline_t);
+        struct tm deadline = *localtime(&deadline_t);
+        deadline.tm_mon = month - 1; // no. of months since January
+        deadline.tm_year = year - 1900; // no. of years since 1990
+        _saving_goal = amount;
+        _deadline = mktime(&deadline);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+float User::getMonthlyGoal(void)
+{
+    float goal = -1;
+    time_t current = time(NULL);
+    time_t deadline = getDeadline_t();
+    int remaining_year = localtime(&deadline)->tm_year - localtime(&current)->tm_year;
+    int remaining_month = remaining_year*12 + localtime(&deadline)->tm_mon - localtime(&current)->tm_mon;
+    float grand_total = getTotalIncome()-getTotalExpense();
+    // cannot meet deadline or meet target or target not set
+    if(remaining_month<0 || grand_total>getSavingGoal() || getSavingGoal()==-1) 
+    {
+        goal = 0;
+    }
+    else
+    {
+        goal = (getSavingGoal() - (grand_total))/remaining_month;
+    }
+    return goal;
+}
+
+float User::getMonthlyQuota(void)
+{
+    float grand_total = getTotalIncome()-getTotalExpense();
+    if(getSavingGoal()!=0 && grand_total>getSavingGoal())
+    {
+        return grand_total - getSavingGoal();
+    }
+    else
+    {
+        return grand_total-getMonthlyGoal();
+    }
+}
+
 Records * User::getUserRecords(void)
 {
     return &_records;
@@ -129,4 +278,6 @@ User::User(std::string username, std::string password)
     _username = username;
     _password = password;
     _records_path = username + ".dat";
+    _saving_goal = 0;
+    _deadline = 0;
 }
