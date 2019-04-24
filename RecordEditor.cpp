@@ -11,7 +11,7 @@ void printRecord(Records *userRecords)
     for (unsigned int i = 0; i < userRecords->countRecord(); i++)
 	{
 	    Record *r = userRecords->getRecord(i);
-	    cout <<left<< setw(4)<< r->getID() << r->getDate() << " " << setw(18)<< left <<r->getAccount() <<setw(18)<< left<< r->getCategory() << setw(2)<<"$"<<setw(10)<<left<< r->getAmount() << endl;
+	    cout <<left<< setw(4)<< r->getID() << r->getDate() << " " << setw(18)<< left <<r->getAccount() <<setw(18)<< left<< r->getCategory() << setw(2)<<"$"<<setw(10)<<left<< fixed <<setprecision(2)<< r->getAmount() << endl;
 
 	}
     cout << endl;
@@ -73,6 +73,7 @@ void DeleteUserRecord(User *user)
 
 int printUserManagementItems()
 {
+	ClearScreen();
 	int userpreference;
 	cout << "1. Change password\n";
 	cout << "2. Delete user account permanently\n";
@@ -99,7 +100,7 @@ int Menu1(void)
     int choice;
     cout << "1. Add record\t";
     cout << "2. Edit record\t\t";
-    cout << "3. Filter record\n";
+    cout << "3. Search record\n";
     cout << "4. Sort record\t";
     cout << "5. Delete record\t";
     cout << "6. Manage user account\n";
@@ -128,6 +129,7 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 				cin.ignore();
 				// have to print all the account
 				// type!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				ClearScreen();
 				cout << "1. income\n";
 				cout << "2. expense\n";
 				cout << "3. transfer\n";
@@ -190,10 +192,9 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 				string SearchRequirement;
 				Records *result = new Records;
 				SortorSearchMenu();
-				cout << "Filter records by: ";
+				cout << "Search records by: ";
 				cin >> SearchField;
 				cout << endl;
-				cout << "Filter by " << SearchField << endl;
 				cin.ignore();
 				cout << "Requirement: ";
 				getline(cin,SearchRequirement);
@@ -201,35 +202,35 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 				{
 					case 1:
 					result = user->getUserRecords()->searchRecords(DATE,SearchRequirement);
-					cout << "Filtered result: \n";
+					cout << "Search result: \n";
    					printRecord(result);
     				delete result; // size of result may be large, must delete everytime
     				result = nullptr;					
 					break;
 					case 2:
 					result = user->getUserRecords()->searchRecords(AMOUNT,SearchRequirement);
-					cout << "Filtered result: \n";
+					cout << "Search result: \n";
    					printRecord(result);
     				delete result; // size of result may be large, must delete everytime
     				result = nullptr;					
 					break;			
 					case 3:
 					result = user->getUserRecords()->searchRecords(CATEGORY,SearchRequirement);
-					cout << "Filtered result: \n";
+					cout << "Search result: \n";
    					printRecord(result);
     				delete result; // size of result may be large, must delete everytime
     				result = nullptr;
 					break;
 					case 4:
 					result = user->getUserRecords()->searchRecords(ACCOUNT,SearchRequirement);
-					cout << "Filtered result: \n";
+					cout << "Search result: \n";
    					printRecord(result);
     				delete result; // size of result may be large, must delete everytime
     				result = nullptr;					
 					break;
 					case 5:
 					result = user->getUserRecords()->searchRecords(ID,SearchRequirement);
-					cout << "Filtered result: \n";
+					cout << "Search result: \n";
    					printRecord(result);
     				delete result; // size of result may be large, must delete everytime
     				result = nullptr;					
@@ -308,12 +309,26 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 					case 1:
 					{
 						string newpassword;
+						string currentpassword;
 						cin.ignore();
-						cout << "New password: ";
-						getline(cin, newpassword);
+						cout << "Current password: ";
+						getline(cin,currentpassword);
 						cout << endl;
-						cout << user_accounts.changePassword(username, userpw, newpassword) << endl;
-						cout << user_accounts.checkPassword(username, newpassword) << endl;		
+						if(user_accounts.checkPassword(username, currentpassword))
+						{
+							cout << "Account will be logged out after changing password.\n";
+							cout << endl;
+							cout << "New password: ";
+							getline(cin, newpassword);
+							cout << endl;
+							cout << user_accounts.changePassword(username, userpw, newpassword) << endl;
+							cout << user_accounts.checkPassword(username, newpassword) << endl;
+							logout = true;		
+						}		
+						else
+						{
+							cout << "Current password is incorrect.\n";
+						}
 						break;			
 					}
 					case 2:

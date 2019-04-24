@@ -6,6 +6,7 @@ void createNewAccount(UserAccounts &user_accounts)
 {
 	string username, password, verification;// double data entry for password
 	cin.ignore();		       // ignore \n in read buffer
+	ClearScreen();
 	cout << "User name: ";
 	getline(cin, username);
 	cout << endl;
@@ -59,6 +60,7 @@ void startUI()
 			}
 			// log in
 		    cin.ignore(); // ignore \n in read buffer
+			ClearScreen();
 		    cout << "User name: ";
 		    getline(cin, username);
 		    cout << endl;
