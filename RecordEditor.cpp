@@ -17,6 +17,15 @@ void printRecord(Records *userRecords)
     cout << endl;
 }
 
+void SortorSearchMenu()
+{
+	cout << "1. Date\n";
+	cout << "2. Amount\n";
+	cout << "3. Category\n";
+	cout << "4. Account\n";
+	cout << "5. ID\n";
+}
+
 void getRecordDetails(Record * &r)
 {
 	string account,category;
@@ -151,10 +160,11 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 						user->getUserRecords()->addRecord(*r);
 
 					}
-					else if(int(RecordType[0])-48 ==3)
+					/*else if(int(RecordType[0])-48 ==3)
 					{
-						cout << "not yet\n";
-					}
+						cout << "Original account: \n";
+						TransferRecord();
+					}*/
 					else 
 					cout << "Invalid input. Please try again.1\n";
 					}
@@ -176,6 +186,59 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 			}
 			case 3:
 			{
+				int SearchField;
+				string SearchRequirement;
+				Records *result = new Records;
+				SortorSearchMenu();
+				cout << "Filter records by: ";
+				cin >> SearchField;
+				cout << endl;
+				cout << "Filter by " << SearchField << endl;
+				cin.ignore();
+				cout << "Requirement: ";
+				getline(cin,SearchRequirement);
+				switch(SearchField)
+				{
+					case 1:
+					result = user->getUserRecords()->searchRecords(DATE,SearchRequirement);
+					cout << "Filtered result: \n";
+   					printRecord(result);
+    				delete result; // size of result may be large, must delete everytime
+    				result = nullptr;					
+					break;
+					case 2:
+					result = user->getUserRecords()->searchRecords(AMOUNT,SearchRequirement);
+					cout << "Filtered result: \n";
+   					printRecord(result);
+    				delete result; // size of result may be large, must delete everytime
+    				result = nullptr;					
+					break;			
+					case 3:
+					result = user->getUserRecords()->searchRecords(CATEGORY,SearchRequirement);
+					cout << "Filtered result: \n";
+   					printRecord(result);
+    				delete result; // size of result may be large, must delete everytime
+    				result = nullptr;
+					break;
+					case 4:
+					result = user->getUserRecords()->searchRecords(ACCOUNT,SearchRequirement);
+					cout << "Filtered result: \n";
+   					printRecord(result);
+    				delete result; // size of result may be large, must delete everytime
+    				result = nullptr;					
+					break;
+					case 5:
+					result = user->getUserRecords()->searchRecords(ID,SearchRequirement);
+					cout << "Filtered result: \n";
+   					printRecord(result);
+    				delete result; // size of result may be large, must delete everytime
+    				result = nullptr;					
+					break;
+					default:
+					cout << "Invalid input!\n";
+					break;
+				}
+
 				break;				
 			}
 			case 4:
@@ -184,10 +247,7 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 				bool SortOrder;
 				int InputOrder;
 
-				cout << "1. Date\n";
-				cout << "2. Amount\n";
-				cout << "3. Category\n";
-				cout << "4. Account\n";
+				SortorSearchMenu();
 				cout << "Sort by: ";
 				cin >> SortField;
 				cout << endl;
@@ -215,7 +275,7 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 					break;
 					case 5:
 					user->getUserRecords()->sortRecords(ID, SortOrder);
-					break;
+					break; 
 					default:
 					cout << "Invalid input!\n";
 					break;	

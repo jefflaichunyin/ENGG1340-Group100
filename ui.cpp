@@ -71,6 +71,7 @@ void startUI()
 				continue;
 			}
 			cout << "Password correct.\n";
+			cout << endl;
 			RecordsEditor(user_accounts, username, userpw);
 		}
 	    if (choice == 2)
