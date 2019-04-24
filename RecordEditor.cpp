@@ -76,8 +76,9 @@ int printUserManagementItems()
 	ClearScreen();
 	int userpreference;
 	cout << "1. Change password\n";
-	cout << "2. Delete user account permanently\n";
-	cout << "3. Show monthly report\n";
+	cout << "2. Show monthly report\n";
+	cout << "3. Set saving budget\n";
+	cout << "4. Delete user account permanently\n";
 	cout << endl;
 
 	cout << "Your choice: ";
@@ -121,20 +122,20 @@ void showStatistics(User *user)
 	cout << "1. Income\n";
 	cout << "2. Expense\n";
 	cout << endl;
+	cout << "Your choice: ";
 	cin >> stat;
-	cout << endl;
     cout << endl;
 	cin.ignore();
 	cout << "Category: ";
 	getline(cin,StatisticCategory);
 	if (stat==1)
 	{
-		cout << StatisticCategory <<" / Monthly total : " << fixed<<setprecision(2)<<user->getCategoryIncome(StatisticCategory) / user->getMonthlyIncome() *100  << "\%" <<endl;
+		cout << StatisticCategory <<" / Monthly total income : " << fixed<<setprecision(2)<<user->getCategoryIncome(StatisticCategory) / user->getMonthlyIncome() *100  << "\%" <<endl;
 		cout << endl;
 	}
 	else
 	{
-		cout << StatisticCategory <<" / Monthly total : " <<fixed<<setprecision(2)<<user->getCategoryExpense(StatisticCategory) / user->getMonthlyExpense() *100 << "\%" <<endl;
+		cout << StatisticCategory <<" / Monthly total expense : " <<fixed<<setprecision(2)<<user->getCategoryExpense(StatisticCategory) / user->getMonthlyExpense() *100 << "\%" <<endl;
 		cout << endl;
 	}
 }
@@ -142,7 +143,7 @@ void showStatistics(User *user)
 int Menu1(void)
 {
     int choice;
-    cout << "1. Modify record\t\t";
+    cout << "1. Modify record\t";
     //cout << "2. Edit record\t\t";
     cout << "2. Search record\t";
     cout << "3. Sort record\n";
@@ -216,7 +217,7 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 						TransferRecord();
 					}*/
 						else 
-						cout << "Invalid input. Please try again.1\n";
+						cout << "Invalid input.\n";
 						}
 					else
 					{
@@ -267,6 +268,7 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 					result = user->getUserRecords()->searchRecords(DATE,SearchRequirement);
 					cout << "Search result: \n";
    					printRecord(result);
+					cout << "- - -\n";
     				delete result; // size of result may be large, must delete everytime
     				result = nullptr;					
 					break;
@@ -274,6 +276,7 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 					result = user->getUserRecords()->searchRecords(AMOUNT,SearchRequirement);
 					cout << "Search result: \n";
    					printRecord(result);
+					cout << "- - -\n";
     				delete result; // size of result may be large, must delete everytime
     				result = nullptr;					
 					break;			
@@ -281,6 +284,7 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 					result = user->getUserRecords()->searchRecords(CATEGORY,SearchRequirement);
 					cout << "Search result: \n";
    					printRecord(result);
+					cout << "- - -\n";
     				delete result; // size of result may be large, must delete everytime
     				result = nullptr;
 					break;
@@ -288,6 +292,7 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 					result = user->getUserRecords()->searchRecords(ACCOUNT,SearchRequirement);
 					cout << "Search result: \n";
    					printRecord(result);
+					cout << "- - -\n";
     				delete result; // size of result may be large, must delete everytime
     				result = nullptr;					
 					break;
@@ -295,6 +300,7 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 					result = user->getUserRecords()->searchRecords(ID,SearchRequirement);
 					cout << "Search result: \n";
    					printRecord(result);
+					cout << "- - -\n";
     				delete result; // size of result may be large, must delete everytime
     				result = nullptr;					
 					break;
@@ -385,17 +391,22 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 							cout << "Current password is incorrect.\n";
 						}
 						break;			
-					}
-					case 2:
+					}		
+
+					case 2:			
+					//monthly report
+					break;					
+					case 3:
+					//saving budget
+					break;
+
+					case 4:
 					{
 						user_accounts.removeUser(username, userpw);
 						logout = true;
 						user_accounts.saveUserInfo();
 						break;						
 					}
-					case 3:
-					//monthly report
-					break;
 					default:
 					{
 						cout << "Not a valid choice." <<endl;
