@@ -317,20 +317,27 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 				int SortField;
 				bool SortOrder;
 				int InputOrder;
+				bool isValid=false;
+				while(!isValid)
+				{
+					SortorSearchMenu();
+					cout << "Sort by: ";
+					cin >> SortField;
+					cout << endl;
+					cout << "1. Ascending order\n";
+					cout << "2. Descending order\n";
+					cin >> InputOrder;
+					cout << endl;		
+					if(InputOrder==1)
+						SortOrder=true;
+					if (InputOrder==2)
+						SortOrder=false;
+					if(InputOrder==1 || InputOrder==2)
+						isValid = true;
+				}
 
-				SortorSearchMenu();
-				cout << "Sort by: ";
-				cin >> SortField;
-				cout << endl;
-				cout << "1. Ascending order\n";
-				cout << "2. Descending order\n";
-				cin >> InputOrder;
-				cout << endl;
 				
-				if(InputOrder==1)
-				SortOrder=true;
-				else if (InputOrder==2)
-				SortOrder=false;
+
 				switch(SortField){
 					case 1:
 					user->getUserRecords()->sortRecords(DATE, SortOrder);
