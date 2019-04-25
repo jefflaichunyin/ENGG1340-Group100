@@ -415,7 +415,7 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 			case 3:			
 			{
 				int SortField;
-				bool SortOrder;
+				bool SortOrder = false;
 				int InputOrder;
 				bool SortInput,OrderInput;
 
@@ -431,9 +431,9 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 			if(SortInput && OrderInput)
 			{
 				if(InputOrder==1)
-				SortOrder=true;
+					SortOrder=true;
 				else if (InputOrder==2)
-				SortOrder=false;
+					SortOrder=false;
 				switch(SortField){
 					case 1:
 					user->getUserRecords()->sortRecords(DATE, SortOrder);
