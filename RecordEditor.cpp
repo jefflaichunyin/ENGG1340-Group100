@@ -27,6 +27,7 @@ void SortorSearchMenu()
 	cout << "3. Category\n";
 	cout << "4. Account\n";
 	cout << "5. ID\n";
+	cout << "6. Type\n";
 }
 
 bool InputValidation(int &userinput)
@@ -166,6 +167,10 @@ void showStatistics(User *user)
 	if(InputValidation(stat))
 	{
 	//cin.ignore();
+    cout << "Total income: $" << user->getTotalIncome() << endl;
+    cout << "Total expense: $" << user->getTotalExpense() << endl;
+    cout << "Grand total: $" << user->getTotalIncome() - user->getTotalExpense() << endl << endl;
+
 	cout << "Category: ";
 	getline(cin,StatisticCategory);
 	if (stat==1)
@@ -189,7 +194,6 @@ void showStatistics(User *user)
 
 void Menu1(void)
 {
-    int choice=0;
     cout << "1. Modify record\t";
     //cout << "2. Edit record\t\t";
     cout << "2. Search record\t";
@@ -351,6 +355,14 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
     				delete result; // size of result may be large, must delete everytime
     				result = nullptr;					
 					break;
+					case 6:
+					result = user->getUserRecords()->searchRecords(TYPE,SearchRequirement);
+					cout << "Search result: \n";
+   					printRecord(result);
+					cout << "- - -\n";
+    				delete result; // size of result may be large, must delete everytime
+    				result = nullptr;					
+					break;
 					default:
 					cout << "Invalid input!\n";
 					break;
@@ -397,6 +409,9 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 					case 5:
 					user->getUserRecords()->sortRecords(ID, SortOrder);
 					break; 
+					case 6:
+					user->getUserRecords()->sortRecords(TYPE, SortOrder);
+					break;
 					default:
 					cout << "No this choice!\n";
 					break;	
@@ -484,6 +499,7 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 				break;				
 			}
 		}
+		if(mainMenuChoice!=6)
 			cin.ignore();
 		}
 
