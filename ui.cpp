@@ -5,7 +5,7 @@ using namespace std;
 void createNewAccount(UserAccounts &user_accounts)
 {
 	string username, password, verification;// double data entry for password
-	cin.ignore();		       // ignore \n in read buffer
+	//cin.ignore();		       // ignore \n in read buffer
 	ClearScreen();
 	cout << "User name: ";
 	getline(cin, username);
@@ -47,9 +47,7 @@ void startUI()
 	    cout << "1. Log in\n";
 	    cout << "2. Create account\n";
 	    cout << "3. Exit" << endl << endl;
-		cout << "Your choice: " ;
-	    cin >> choice; // get user choice
-		cout << endl;
+		InputValidation(choice); //get user choice
 
 	    if (choice == 1)
 		{	
@@ -59,7 +57,7 @@ void startUI()
 				continue;
 			}
 			// log in
-		    cin.ignore(); // ignore \n in read buffer
+		    //cin.ignore(); // ignore \n in read buffer
 			ClearScreen();
 		    cout << "User name: ";
 		    getline(cin, username);

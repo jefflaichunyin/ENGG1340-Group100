@@ -8,7 +8,10 @@ void ClearScreen()
 
 void printRecord(Records *userRecords)
 {
-    for (unsigned int i = 0; i < userRecords->countRecord(); i++)
+    
+	cout <<left<< setw(4)<< "ID" <<setw(24)<< "DATE" << " " << setw(18)<< left <<"ACCOUNT" <<setw(18)<< left<< "CATEGORY" << setw(10)<<left<< "AMOUNT" << endl;
+	cout <<"-------------------------------------------------------------------------------"<< endl;
+	for (unsigned int i = 0; i < userRecords->countRecord(); i++)
 	{
 	    Record *r = userRecords->getRecord(i);
 	    cout <<left<< setw(4)<< r->getID() << r->getDate() << " " << setw(18)<< left <<r->getAccount() <<setw(18)<< left<< r->getCategory() << setw(2)<<"$"<<setw(10)<<left<< fixed <<setprecision(2)<< r->getAmount() << endl;
@@ -24,6 +27,32 @@ void SortorSearchMenu()
 	cout << "3. Category\n";
 	cout << "4. Account\n";
 	cout << "5. ID\n";
+}
+
+bool InputValidation(int &userinput)
+{
+	char TempInput[20];
+	char checkdigit;
+	int i=0;
+	cout << "Your choice: ";
+	do{
+		TempInput[i]=getchar();
+		i++;
+	}while (i<20 && TempInput[i-1]!='\n');				
+	cout << endl;
+	checkdigit=TempInput[0];
+	if(checkdigit>48 && checkdigit<58)
+	{
+		userinput=int(checkdigit)-48;
+		return true;
+	}
+	else
+	{
+		cout << "Invalid input.\n";
+		cout << endl;
+		return false;
+	}
+	
 }
 
 void getRecordDetails(Record * &r)
@@ -60,6 +89,7 @@ void EditUserRecord(User *user)
 	user->getUserRecords()->replaceRecord(id-1, *new_record);
 }
 
+
 void DeleteUserRecord(User *user)
 {
 	int id;
@@ -74,39 +104,50 @@ void DeleteUserRecord(User *user)
 int printUserManagementItems()
 {
 	ClearScreen();
-	int userpreference;
+	int userpreference=0;
 	cout << "1. Change password\n";
 	cout << "2. Show monthly report\n";
 	cout << "3. Set saving budget\n";
 	cout << "4. Delete user account permanently\n";
 	cout << endl;
-
-	cout << "Your choice: ";
-	cin >> userpreference;
+	InputValidation(userpreference);
 	return userpreference;
-}
-
-bool InputValidation(char checkdigit)
-{
-	if(checkdigit>48 && checkdigit<58)
-	return true;
-	else
-	{
-		return false;
-	}
-	
 }
 
 int printrecordmenu()
 {
-	int record;
+	int record=0;
 	cout << "1. Add record\n";
 	cout << "2. Edit record\n";
 	cout << "3. Delete record\n";
+	cout << "4. Exit\n";
 	cout << endl;
-	cout << "Your choice: ";
-	cin >> record;
+	InputValidation(record);
 	return record;
+	
+}
+
+void getSavingDetails(User *user)
+{
+	user->getUserRecords();
+	float amount;
+	int month, year;
+	string datetemp;
+	cout << "Your saving target: ";
+	cin >> amount;
+	cout << endl;
+	cout << "Deadline \n";
+	cout << "Month: ";
+	cin >> month;
+	cout << "Year: ";
+	cin >> year;
+	cout << endl;
+
+	user->setSavingGoal(amount,month,year);
+    cout << "\ndeadline: " << user->getDeadline() << endl;
+    cout << "monthly goal: " << user->getMonthlyGoal() << endl;
+    cout << "monthly quota: " << user->getMonthlyQuota() << endl;
+
 }
 
 /*void printAccountMonthlyReport()
@@ -122,10 +163,9 @@ void showStatistics(User *user)
 	cout << "1. Income\n";
 	cout << "2. Expense\n";
 	cout << endl;
-	cout << "Your choice: ";
-	cin >> stat;
-    cout << endl;
-	cin.ignore();
+	if(InputValidation(stat))
+	{
+	//cin.ignore();
 	cout << "Category: ";
 	getline(cin,StatisticCategory);
 	if (stat==1)
@@ -138,11 +178,18 @@ void showStatistics(User *user)
 		cout << StatisticCategory <<" / Monthly total expense : " <<fixed<<setprecision(2)<<user->getCategoryExpense(StatisticCategory) / user->getMonthlyExpense() *100 << "\%" <<endl;
 		cout << endl;
 	}
+	
+	}
+	else
+	{
+		cout << "Please try again.\n";
+	}
+	
 }
 
-int Menu1(void)
+void Menu1(void)
 {
-    int choice;
+    int choice=0;
     cout << "1. Modify record\t";
     //cout << "2. Edit record\t\t";
     cout << "2. Search record\t";
@@ -152,30 +199,31 @@ int Menu1(void)
     cout << "5. Statistics\t\t";
 	cout << "6. Log out\n";
     cout << endl;
-    cout << "Make your choice: ";
-    cin >> choice;
-    cout << endl;
-    return choice;
+   
 }
 
 void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw)
 {
+	int userinput;
 	bool logout = false;
+	int mainMenuChoice=0;
 	User *user = user_accounts.getUser(username);
 	user->loadRecords();
 	while (!logout)
 	{
 		printRecord(user->getUserRecords());
-		switch (Menu1())
+		Menu1();
+		if(InputValidation(mainMenuChoice))
+		{
+		switch (mainMenuChoice)
 		{ // see what the users want to do after log in
+			
 			case 1:
 			{
-				char RecordType[20];
-				int i=0;
 				switch(printrecordmenu())
 				{
 					case 1:
-					cin.ignore();
+					//cin.ignore();
 				// have to print all the account
 				// type!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 					ClearScreen();
@@ -184,17 +232,10 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 				//cout << "3. transfer\n";
 				//allow user to input more than one characters
 				//but only count the first character
-					cout << "Your choice: ";
-					do{
-						RecordType[i]=getchar();
-						i++;
-					}while (i<20 && RecordType[i-1]!='\n');
-				
-					cout << endl;
 
 				//avoid invalid input crash the programme
-					if(InputValidation(RecordType[0])){  //input validation
-						if(int(RecordType[0])-48 == 1){
+					if(InputValidation(userinput)){  //input validation
+						if(userinput==1){
 					
 						Record *r = new Record(); //delete after use
 						getRecordDetails(r);  //no *r
@@ -203,7 +244,7 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 
 						delete r;
 						}
-						else if(int(RecordType[0])-48 == 2)
+						else if(userinput==2)
 						{
 							Record *r = new Record(); //delete after use
 							getRecordDetails(r);  //no *r
@@ -211,7 +252,7 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 							user->getUserRecords()->addRecord(*r);
 
 						}
-					/*else if(int(RecordType[0])-48 ==3)
+					/*else if(int(TempInput[0])-48 ==3)
 					{
 						cout << "Original account: \n";
 						TransferRecord();
@@ -229,7 +270,11 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 					if(user->getUserRecords()->countRecord()==0)
 						cout << "No record at the moment, please add some records first.\n";
 					else
+					{
+						user->getUserRecords()->sortRecords(ID, true);
 						EditUserRecord(user);
+					}
+						
 					break;				
 					}
 					case 3:
@@ -242,6 +287,10 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 							DeleteUserRecord(user);					
 						}				
 						break;			
+					}
+					case 4:
+					{
+						break;
 					}
 					default:
 					cout << "Invalid input.\n";
@@ -256,10 +305,8 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 				string SearchRequirement;
 				Records *result = new Records;
 				SortorSearchMenu();
-				cout << "Search records by: ";
-				cin >> SearchField;
-				cout << endl;
-				cin.ignore();
+			if(InputValidation(SearchField)){
+				//cin.ignore();
 				cout << "Requirement: ";
 				getline(cin,SearchRequirement);
 				switch(SearchField)
@@ -308,7 +355,7 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 					cout << "Invalid input!\n";
 					break;
 				}
-
+			}
 				break;				
 			}
 
@@ -317,16 +364,19 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 				int SortField;
 				bool SortOrder;
 				int InputOrder;
+				bool SortInput,OrderInput;
 
 				SortorSearchMenu();
-				cout << "Sort by: ";
-				cin >> SortField;
+				SortInput=InputValidation(SortField);
 				cout << endl;
 				cout << "1. Ascending order\n";
 				cout << "2. Descending order\n";
-				cin >> InputOrder;
+				cout << "Order: ";
+				OrderInput=InputValidation(InputOrder);
 				cout << endl;
 				
+			if(SortInput && OrderInput)
+			{
 				if(InputOrder==1)
 				SortOrder=true;
 				else if (InputOrder==2)
@@ -348,16 +398,15 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 					user->getUserRecords()->sortRecords(ID, SortOrder);
 					break; 
 					default:
-					cout << "Invalid input!\n";
+					cout << "No this choice!\n";
 					break;	
 				}
-				//check invalid input
-				/*else
-				{
-					cout << "Please input a valid number\n";
-					cout << endl;
-				}*/
-				
+			}
+			else
+			{
+				cout << "Can't sort record. Here is invalid input.\n";
+			}
+			
 				break;				
 			}
 
@@ -371,7 +420,7 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 					{
 						string newpassword;
 						string currentpassword;
-						cin.ignore();
+						//cin.ignore();
 						cout << "Current password: ";
 						getline(cin,currentpassword);
 						cout << endl;
@@ -392,14 +441,14 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 						}
 						break;			
 					}		
-
 					case 2:			
 					//monthly report
 					break;					
 					case 3:
-					//saving budget
-					break;
-
+					{
+						getSavingDetails(user);
+						break;			
+					}
 					case 4:
 					{
 						user_accounts.removeUser(username, userpw);
@@ -435,6 +484,9 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 				break;				
 			}
 		}
+			cin.ignore();
+		}
+
 	}
 	user->unloadRecords();
 }
