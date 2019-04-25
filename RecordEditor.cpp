@@ -80,11 +80,13 @@ void EditUserRecord(User *user)
 {
 	int id;
 	printRecord(user->getUserRecords());
+	Record *new_record = new Record();
 	cout << "Please enter the ID of the record: ";
 	cin >> id;
+
+	new_record->setType(user->getUserRecords()->getRecord(id-1)->getType());
 	cout << endl;
 	cin.ignore();
-	Record *new_record = new Record();
 	getRecordDetails(new_record);
 	new_record->setID(id);
 	user->getUserRecords()->replaceRecord(id-1, *new_record);
@@ -160,7 +162,27 @@ void printAccountMonthlyReport(User *user)
     cout << "Monthly expense / Total expense : " << user->getMonthlyExpense() << " / " << user->getTotalExpense()<< endl;
     cout << "Monthly total: " << user->getTotalIncome() - user->getTotalExpense() << endl;
 	cout << endl; 
-	cout << "INCOME: \n";
+
+	cout <<left<< setw(4)<< "ID" <<setw(25)<< "DATE" << " " << setw(18)<< left <<"ACCOUNT" <<setw(18)<< left<< "CATEGORY" << setw(15)<<left<< "INCOME"<< setw(15)<<left<< "EXPENSE" <<endl;
+	cout <<"---------------------------------------------------------------------------------------------"<< endl;
+	for (unsigned int i = 0; i < user->getUserRecords()->countRecord(); i++)
+	{
+	    Record *r = user->getUserRecords()->getRecord(i);
+		if(r->getType()=="INCOME")
+		{
+	    cout <<left<< setw(4)<< r->getID() << setw(25) << r->getDate() << " " << setw(18)<< left <<r->getAccount() <<setw(18)<< left<< r->getCategory() << setw(2)<<"$"<<setw(13)<<left<< fixed <<setprecision(2)<< r->getAmount() <<setw(15)<<" "<< endl;
+		}
+		else
+		{
+	    cout <<left<< setw(4)<< r->getID() << setw(25) << r->getDate() << " " << setw(18)<< left <<r->getAccount() <<setw(18)<< left<< r->getCategory() <<setw(15)<<" "<< setw(2)<<"$"<<setw(13)<<left<< fixed <<setprecision(2)<< r->getAmount() << endl;
+		}
+		cout << endl;
+	}
+		cout <<"---------------------------------------------------------------------------------------------"<< endl;
+		cout << setw(66) << "Total " <<setw(2)<<"$"<< setw(13)<<left<< fixed <<setprecision(2)<<user->getMonthlyIncome() <<setw(2)<<"$"<< setw(13) <<left<< fixed <<setprecision(2)<< user->getMonthlyExpense()<<endl;
+    cout << endl;
+	
+	/*cout << "INCOME: \n";
  	printRecord(user->getUserRecords()->searchRecords(TYPE,"INCOME"));
 	cout << "- - -\n";
 	cout << endl; 
@@ -168,7 +190,7 @@ void printAccountMonthlyReport(User *user)
 	cout << "EXPENSE: \n";
  	printRecord(user->getUserRecords()->searchRecords(TYPE,"EXPENSE"));
 	cout << "- - -\n";
-	cout << endl;
+	cout << endl;*/
 
 	cout << "Total balance: " << user->getTotalIncome() - user->getTotalExpense() <<endl;
 
