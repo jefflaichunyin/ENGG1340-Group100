@@ -9,12 +9,12 @@ void ClearScreen()
 void printRecord(Records *userRecords)
 {
     
-	cout <<left<< setw(4)<< "ID" <<setw(24)<< "DATE" << " " << setw(18)<< left <<"ACCOUNT" <<setw(18)<< left<< "CATEGORY" << setw(10)<<left<< "AMOUNT" << endl;
-	cout <<"-------------------------------------------------------------------------------"<< endl;
+	cout <<left<< setw(4)<< "ID" <<setw(25)<< "DATE" << " " << setw(18)<< left <<"ACCOUNT" <<setw(18)<< left<< "CATEGORY" << setw(15)<<left<< "AMOUNT" <<setw(8) << "TYPE"<< endl;
+	cout <<"---------------------------------------------------------------------------------------------"<< endl;
 	for (unsigned int i = 0; i < userRecords->countRecord(); i++)
 	{
 	    Record *r = userRecords->getRecord(i);
-	    cout <<left<< setw(4)<< r->getID() << r->getDate() << " " << setw(18)<< left <<r->getAccount() <<setw(18)<< left<< r->getCategory() << setw(2)<<"$"<<setw(10)<<left<< fixed <<setprecision(2)<< r->getAmount() << endl;
+	    cout <<left<< setw(4)<< r->getID() << setw(25) << r->getDate() << " " << setw(18)<< left <<r->getAccount() <<setw(18)<< left<< r->getCategory() << setw(2)<<"$"<<setw(13)<<left<< fixed <<setprecision(2)<< r->getAmount() << setw(8) << r->getType() << endl;
 
 	}
     cout << endl;
@@ -151,10 +151,29 @@ void getSavingDetails(User *user)
 
 }
 
-/*void printAccountMonthlyReport()
+void printAccountMonthlyReport(User *user)
 {
-	
-}*/
+	ClearScreen();
+	cout << "User name: " << user->getUsername() << endl;
+	cout << endl;
+    cout << "Monthly income / Total income : " << user->getMonthlyIncome() << " / " << user->getTotalIncome() << endl;
+    cout << "Monthly expense / Total expense : " << user->getMonthlyExpense() << " / " << user->getTotalExpense()<< endl;
+    cout << "Monthly total: " << user->getTotalIncome() - user->getTotalExpense() << endl;
+	cout << endl; 
+	cout << "INCOME: \n";
+ 	printRecord(user->getUserRecords()->searchRecords(TYPE,"INCOME"));
+	cout << "- - -\n";
+	cout << endl; 
+
+	cout << "EXPENSE: \n";
+ 	printRecord(user->getUserRecords()->searchRecords(TYPE,"EXPENSE"));
+	cout << "- - -\n";
+	cout << endl;
+
+	cout << "Total balance: " << user->getTotalIncome() - user->getTotalExpense() <<endl;
+
+	cout << "\n(Click once to resume)\n";
+}
 
 void showStatistics(User *user)
 {
@@ -458,6 +477,7 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 					}		
 					case 2:			
 					//monthly report
+					printAccountMonthlyReport(user);
 					break;					
 					case 3:
 					{

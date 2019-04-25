@@ -75,7 +75,7 @@ void startUI()
 			RecordsEditor(user_accounts, username, userpw);
 		}
 	    if (choice == 2)
-		{				       // create new account
+		{	 // create new account
 			createNewAccount(user_accounts);
 		}
 	}
