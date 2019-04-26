@@ -3,14 +3,15 @@ using namespace std;
 
 void ClearScreen() 
 { 
-	std::cout << std::string(100, '\n'); 
+	cout << string(100, '\n'); 
 }
 
 void printRecord(Records *userRecords)
 {
     
-	cout <<left<< setw(4)<< "ID" <<setw(25)<< "DATE" << " " << setw(18)<< left <<"ACCOUNT" <<setw(18)<< left<< "CATEGORY" << setw(16)<<left<< "AMOUNT" <<setw(8) << "TYPE"<<"REMARK"<< endl;
-	cout <<"---------------------------------------------------------------------------------------------"<< endl;
+	cout <<left<< setw(4)<< "ID" <<setw(25)<< "DATE" << " " << setw(18)<< left <<"ACCOUNT" 
+		 <<setw(18)<< left<< "CATEGORY" << setw(16)<<left<< "AMOUNT" <<setw(8) << "TYPE"<< setw(10) << "REMARK"<< endl;
+	cout << string(4+25+18+18+16+8+10, '-') << endl;
 	for (unsigned int i = 0; i < userRecords->countRecord(); i++)
 	{
 	    Record *r = userRecords->getRecord(i);
