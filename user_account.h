@@ -11,8 +11,8 @@ class UserAccounts
         bool changePassword(std::string username, std::string old_password, std::string new_password); // return false if old_password doesn't match current password or user doesn't exist
         bool saveUserInfo(void); 
         bool loadUserInfo(void); // return false when no previous user info is saved
-    private:
         int searchUser(std::string username); // return the position of the user in _users vector
+    private:
         std::vector<User> _users;
 
 };

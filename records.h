@@ -2,7 +2,7 @@
 #include "record.h"
 #include <vector>
 
-enum Field{ID,DATE,AMOUNT,TYPE,CATEGORY,ACCOUNT,REMARK};
+enum Field{ID,DATE,ACCOUNT,CATEGORY,AMOUNT,TYPE,REMARK};
 
 class Records
 {

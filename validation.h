@@ -6,8 +6,8 @@
 //  upper:      upper bound of the input value
 // Output:
 //  int:        validated user input
-int CheckIntRange(std::string message, int lower, int upper);
-
+int validatedInt(std::string message, int lower, int upper);
+float validatedFloat(std::string message, float lower, float upper);
 // Function: validate user string input
 // Input:
 //  message:    message to prompt the user to input a value
@@ -15,4 +15,4 @@ int CheckIntRange(std::string message, int lower, int upper);
 //  max_length: maximum length of the user input
 // Output:
 //  string:     validated user input
-std::string validateStringLength(string message, int min_length, int max_length)
+std::string validatedString(std::string message, unsigned int min_length, unsigned int max_length);

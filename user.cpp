@@ -106,7 +106,7 @@ std::string User::getDeadline(void)
     }
     else
     {
-        return "Deadline is not set yet.";
+        return "Not set yet";
     }
 }
 time_t User::getDeadline_t(void)
@@ -247,7 +247,7 @@ bool User::saveRecords(void)
             std::strcpy(user_records->category, r->getCategory().c_str());
             std::strcpy(user_records->type, r->getType().c_str());
             std::strcpy(user_records->account, r->getAccount().c_str());
-            std::strcpy(user_records->type, r->getType().c_str());
+            std::strcpy(user_records->remark, r->getRemark().c_str());
             outputfile.write((char *)user_records, sizeof(POD_Record));
         }
         outputfile.close();

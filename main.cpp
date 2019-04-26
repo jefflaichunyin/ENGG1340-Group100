@@ -1,7 +1,10 @@
-#include "ui.h"
+#include "WelcomePage.h"
 using namespace std;
+
+
+
 int main()
 {
-	startUI();
+	WelcomePage();
 	return 0;
 }
