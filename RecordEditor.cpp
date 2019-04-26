@@ -9,12 +9,12 @@ void ClearScreen()
 void printRecord(Records *userRecords)
 {
     
-	cout <<left<< setw(4)<< "ID" <<setw(25)<< "DATE" << " " << setw(18)<< left <<"ACCOUNT" <<setw(18)<< left<< "CATEGORY" << setw(15)<<left<< "AMOUNT" <<setw(8) << "TYPE"<< endl;
+	cout <<left<< setw(4)<< "ID" <<setw(25)<< "DATE" << " " << setw(18)<< left <<"ACCOUNT" <<setw(18)<< left<< "CATEGORY" << setw(16)<<left<< "AMOUNT" <<setw(8) << "TYPE"<<"REMARK"<< endl;
 	cout <<"---------------------------------------------------------------------------------------------"<< endl;
 	for (unsigned int i = 0; i < userRecords->countRecord(); i++)
 	{
 	    Record *r = userRecords->getRecord(i);
-	    cout <<left<< setw(4)<< r->getID() << setw(25) << r->getDate() << " " << setw(18)<< left <<r->getAccount() <<setw(18)<< left<< r->getCategory() << setw(2)<<"$"<<setw(13)<<left<< fixed <<setprecision(2)<< r->getAmount() << setw(8) << r->getType() << endl;
+	    cout <<left<< setw(4)<< r->getID() << setw(25) << r->getDate() << " " << setw(18)<< left <<r->getAccount() <<setw(18)<< left<< r->getCategory() << setw(2)<<"$"<<setw(13)<<right<< fixed <<setprecision(2)<< r->getAmount() << " "<<left<< setw(8) << r->getType() <<r->getRemark()<< endl;
 
 	}
     cout << endl;
@@ -28,6 +28,7 @@ void SortorSearchMenu()
 	cout << "4. Account\n";
 	cout << "5. ID\n";
 	cout << "6. Type\n";
+	cout << "7. Remark\n";
 }
 
 bool InputValidation(int &userinput)
@@ -58,7 +59,7 @@ bool InputValidation(int &userinput)
 
 void getRecordDetails(Record * &r)
 {
-	string account,category;
+	string account,category,remark;
 	float amount;
 	//cin.ignore();
 	cout << "Account: ";
@@ -67,6 +68,9 @@ void getRecordDetails(Record * &r)
 	cout << "Category: ";
 	getline(cin,category);
 	cout << endl;
+	cout << "Remark: ";
+	getline(cin,remark);
+	cout << endl;
 	cout << "Amount: ";
 	cin >> amount;
 	cout << endl;
@@ -74,6 +78,7 @@ void getRecordDetails(Record * &r)
 	r->setAccount(account);
 	r->setAmount(amount);
 	r->setCategory(category);
+	r->setRemark(remark);
 }
 
 void EditUserRecord(User *user)
@@ -366,52 +371,120 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 				switch(SearchField)
 				{
 					case 1:
+					if(user->getUserRecords()->searchRecords(DATE,SearchRequirement)->countRecord()>0) 
+				{
 					result = user->getUserRecords()->searchRecords(DATE,SearchRequirement);
 					cout << "Search result: \n";
    					printRecord(result);
 					cout << "- - -\n";
     				delete result; // size of result may be large, must delete everytime
     				result = nullptr;					
+
+				}
+				else
+				{
+					cout<<"No record.\n";
+				}
 					break;
 					case 2:
+					if(user->getUserRecords()->searchRecords(AMOUNT,SearchRequirement)->countRecord()>0) 
+					{
 					result = user->getUserRecords()->searchRecords(AMOUNT,SearchRequirement);
 					cout << "Search result: \n";
    					printRecord(result);
 					cout << "- - -\n";
     				delete result; // size of result may be large, must delete everytime
     				result = nullptr;					
+
+					}
+					else
+					{
+					cout<<"No record.\n";
+					}
+					
 					break;			
 					case 3:
+					if(user->getUserRecords()->searchRecords(CATEGORY,SearchRequirement)->countRecord()>0) 
+					{
 					result = user->getUserRecords()->searchRecords(CATEGORY,SearchRequirement);
 					cout << "Search result: \n";
    					printRecord(result);
 					cout << "- - -\n";
     				delete result; // size of result may be large, must delete everytime
     				result = nullptr;
+					}
+					else
+					{
+						cout << "No record.\n";
+					}
+					
 					break;
 					case 4:
+					if(user->getUserRecords()->searchRecords(ACCOUNT,SearchRequirement)->countRecord()>0)
+					{
 					result = user->getUserRecords()->searchRecords(ACCOUNT,SearchRequirement);
 					cout << "Search result: \n";
    					printRecord(result);
 					cout << "- - -\n";
     				delete result; // size of result may be large, must delete everytime
     				result = nullptr;					
+					} 
+					else
+					{
+						cout <<"No record.\n";
+					}
+					
 					break;
 					case 5:
+					if(user->getUserRecords()->searchRecords(ID,SearchRequirement)->countRecord()>0) 
+					{
 					result = user->getUserRecords()->searchRecords(ID,SearchRequirement);
 					cout << "Search result: \n";
    					printRecord(result);
 					cout << "- - -\n";
     				delete result; // size of result may be large, must delete everytime
     				result = nullptr;					
+
+					}
+					else
+					{
+						cout<<"No record.\n";
+					}
+					
 					break;
 					case 6:
+					if(user->getUserRecords()->searchRecords(TYPE,SearchRequirement)->countRecord()>0) 
+					{
 					result = user->getUserRecords()->searchRecords(TYPE,SearchRequirement);
 					cout << "Search result: \n";
    					printRecord(result);
 					cout << "- - -\n";
     				delete result; // size of result may be large, must delete everytime
     				result = nullptr;					
+
+					}
+					else
+					{
+						cout <<"No record.\n";
+					}
+					
+					break;
+					case 7:
+					if(user->getUserRecords()->searchRecords(REMARK,SearchRequirement)->countRecord()>0) 
+					{
+					result = user->getUserRecords()->searchRecords(REMARK,SearchRequirement);
+					cout << "Search result: \n";
+   					printRecord(result);
+					cout << "- - -\n";
+    				delete result; // size of result may be large, must delete everytime
+    				result = nullptr;					
+
+					}
+					else
+					{
+						cout <<"No record.\n";
+					}
+					
 					break;
 					default:
 					cout << "Invalid input!\n";
@@ -461,6 +534,9 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 					break; 
 					case 6:
 					user->getUserRecords()->sortRecords(TYPE, SortOrder);
+					break;
+					case 7:
+					user->getUserRecords()->sortRecords(REMARK, SortOrder);
 					break;
 					default:
 					cout << "No this choice!\n";
