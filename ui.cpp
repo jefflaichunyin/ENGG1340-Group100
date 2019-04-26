@@ -70,6 +70,7 @@ void startUI()
 			{
 				continue;
 			}
+			ClearScreen();
 			cout << "Password correct.\n";
 			cout << endl;
 			RecordsEditor(user_accounts, username, userpw);

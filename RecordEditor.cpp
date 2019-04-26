@@ -156,6 +156,8 @@ void getSavingDetails(User *user)
 void printAccountMonthlyReport(User *user)
 {
 	ClearScreen();
+    time_t current_t = time(nullptr);
+
 	cout << "User name: " << user->getUsername() << endl;
 	cout << endl;
     cout << "Monthly income / Total income : " << user->getMonthlyIncome() << " / " << user->getTotalIncome() << endl;
@@ -168,7 +170,9 @@ void printAccountMonthlyReport(User *user)
 	for (unsigned int i = 0; i < user->getUserRecords()->countRecord(); i++)
 	{
 	    Record *r = user->getUserRecords()->getRecord(i);
-		if(r->getType()=="INCOME")
+        time_t record_t = r->getDate_t();
+
+		if(r->getType()=="INCOME" && localtime(&current_t)->tm_mon == localtime(&record_t)->tm_mon)
 		{
 	    cout <<left<< setw(4)<< r->getID() << setw(25) << r->getDate() << " " << setw(18)<< left <<r->getAccount() <<setw(18)<< left<< r->getCategory() << setw(2)<<"$"<<setw(13)<<left<< fixed <<setprecision(2)<< r->getAmount() <<setw(15)<<" "<< endl;
 		}
@@ -207,30 +211,32 @@ void showStatistics(User *user)
 	cout << endl;
 	if(InputValidation(stat))
 	{
-	//cin.ignore();
+	/*cin.ignore();
     cout << "Total income: $" << user->getTotalIncome() << endl;
     cout << "Total expense: $" << user->getTotalExpense() << endl;
     cout << "Grand total: $" << user->getTotalIncome() - user->getTotalExpense() << endl << endl;
+	*/
 
-	cout << "Category: ";
-	getline(cin,StatisticCategory);
 	if (stat==1)
 	{
+		cout << "Category: ";
+		getline(cin,StatisticCategory);
 		cout << StatisticCategory <<" / Monthly total income : " << fixed<<setprecision(2)<<user->getCategoryIncome(StatisticCategory) / user->getMonthlyIncome() *100  << "\%" <<endl;
 		cout << endl;
 	}
-	else
+	else if(stat==2)
 	{
+		cout << "Category: ";
+		getline(cin,StatisticCategory);
 		cout << StatisticCategory <<" / Monthly total expense : " <<fixed<<setprecision(2)<<user->getCategoryExpense(StatisticCategory) / user->getMonthlyExpense() *100 << "\%" <<endl;
 		cout << endl;
 	}
 	
-	}
 	else
 	{
 		cout << "Please try again.\n";
 	}
-	
+	}
 }
 
 void Menu1(void)
@@ -256,6 +262,9 @@ void RecordsEditor(UserAccounts &user_accounts, string &username, string &userpw
 	user->loadRecords();
 	while (!logout)
 	{
+    	cout << "Total income: $" << user->getTotalIncome() << endl;
+    	cout << "Total expense: $" << user->getTotalExpense() << endl;
+    	cout << "Grand total: $" << user->getTotalIncome() - user->getTotalExpense() << endl << endl;
 		printRecord(user->getUserRecords());
 		Menu1();
 		if(InputValidation(mainMenuChoice))
