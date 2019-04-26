@@ -63,6 +63,7 @@ This module allow user to sort or search records by the following field,
 7. Remark
 
 Records can be sorted by ascending order or descending order.
+
 Records can be searched by keyword. All the records with keyword matched in the selected field will be shown.
 
 ### Manage user account
