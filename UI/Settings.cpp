@@ -25,18 +25,23 @@ void setGoal(User *user)
     while(!VALID)
     {
         // not allowed to set a target lower than current net income
+        time_t current_t;
+        time(&current_t);
+        struct tm current_time = *localtime(&current_t);
         float net_income = user->getTotalIncome()-user->getTotalExpense();
         float saving_goal = validatedFloat("How much do you want to save? $", net_income, 10000000000);
         cout << "Please set a deadline for your saving goal\n";
         int month = validatedInt("Month(1-12): ", 1, 12);
         int year = validatedInt("Year: ", 1900, 2030); // 32 bits time_t limit
-        user->setSavingGoal(saving_goal, month, year);
-        if(time(nullptr)>user->getDeadline_t())
+        if((month+12*year)<=(current_time.tm_mon+1+(current_time.tm_year+1900)*12))
         {
+            
             cout << "\nCannot set deadline in the past.\n" << "Please enter a valid deadline\n\n";
+            user->setSavingGoal_t(0, 0);
         }
         else
         {
+            user->setSavingGoal(saving_goal, month, year);
             VALID = true;
         }
     }

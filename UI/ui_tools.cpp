@@ -21,11 +21,9 @@ void printPercentage(float percentage)
 // Monthly Goal:	Not set yet	Monthly Quota:	$2120.00
 void printHeader(User *user)
 {
-    // cout << "Total Income:\t$" << setw(10) << fixed << user->getTotalIncome();
-    // cout << "\tTotal Expense:\t$" << setw(10) << fixed << user->getTotalExpense();
     cout << "Net Income:\t$" << setw(10) << fixed << right << setprecision(1) << user->getTotalIncome() - user->getTotalExpense();
-    cout << "\tMonthly Income:\t$" << right << user->getMonthlyIncome();
-    cout << "\t\tMonthly Expense:\t$" << setw(8) << right << user->getMonthlyExpense() << endl;
+    cout << "\tMonthly Income:\t$" << fixed << right << setprecision(1) << user->getMonthlyIncome();
+    cout << "\t\tMonthly Expense:\t$" << setw(8) << fixed << right << setprecision(1) << user->getMonthlyExpense() << endl;
     if(user->getSavingGoal()==0)
         cout << "Saving Goal:\tNot set yet\n";
     else
