@@ -15,6 +15,10 @@ We have implemented the following program features:
 7. use presence/range/type/length check to validate every user input
 8. allow user to navigate between pages of records instead of scrolling
 ## User Manual:
+=======
+
+## How to use:
+
 ### INSTALL
 ```
 make

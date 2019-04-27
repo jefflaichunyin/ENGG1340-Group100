@@ -43,6 +43,7 @@ float User::getMonthlyIncome()
     {
         Record *r = user_records->getRecord(i);
         time_t record_t = r->getDate_t();
+        // The income record is created in the current month
         if(r->getType()=="INCOME" && r->getCategory()!="TRANSFER" && localtime(&current_t)->tm_mon == localtime(&record_t)->tm_mon)
             income += r->getAmount();
     }
@@ -59,12 +60,14 @@ float User::getMonthlyExpense()
     {
         Record *r = user_records->getRecord(i);
         time_t record_t = r->getDate_t();
+        // The expense record is created in the current month
         if(r->getType()=="EXPENSE" && r->getCategory()!="TRANSFER" &&  localtime(&current_t)->tm_mon == localtime(&record_t)->tm_mon)
             expense += r->getAmount();
     }
     return expense;
 }
 
+// return the deadline of the saving goal in MM-YYYY format
 std::string User::getDeadline(void)
 {
     if(_deadline > 0)
@@ -79,6 +82,7 @@ std::string User::getDeadline(void)
         return "Not set yet";
     }
 }
+
 time_t User::getDeadline_t(void)
 {
     return _deadline;
@@ -106,7 +110,7 @@ bool User::setSavingGoal_t(float amount, time_t deadline)
 
 bool User::setSavingGoal(float amount, int month, int year)
 {
-    if(amount>0 && month>0 && year>=1990)
+    if(amount>0 && month>0 && year>=1900) 
     {
         time_t deadline_t;
         time(&deadline_t);
@@ -197,6 +201,7 @@ std::string User::getPassword(void)
 {
     return _password;
 }
+
 bool User::saveRecords(void)
 {
     std::ofstream outputfile(_records_path.c_str(), std::ios::binary);
@@ -239,6 +244,7 @@ bool User::removeRecords(void)
         return true;
     }
 }
+
 bool User::loadRecords(void)
 {
     std::ifstream inputfile(_records_path.c_str(), std::ios::binary);
@@ -268,6 +274,7 @@ bool User::loadRecords(void)
     }
 }
 
+// delete user records from  the memory
 void User::unloadRecords(void)
 {
     _records.clearRecords();

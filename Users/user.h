@@ -1,4 +1,3 @@
-
 #include "../Records/records.h"
 #define MAX_LENGTH 255
 
@@ -10,10 +9,12 @@ struct POD_UserInfo
     float saving_goal;
     time_t deadline;
 };
+
 class User
 {
     public:
         User(std::string username, std::string password); // use this constructor to create user
+        // return the address pointing to the user records
         Records * getUserRecords(void);
 
         // plz avoid using following functions, use functions in UserAccount instead
@@ -35,17 +36,17 @@ class User
         float getMonthlyExpense();
         // return 0 if saving goal is not set / already meet / already passed the deadline
         float getMonthlyGoal(void);
-        // 
+
         // if saving goal is not set, return amount of money the user can spend , return -ve value if grand total < 0
         // return +ve value if there is still remaining quota
         // return -ve value if the user overspend, the value will be amount of overspend
         float getMonthlyQuota(void);
         
-        std::string getDeadline(void);
+        std::string getDeadline(void);  // return deadline in MM-YYYY format
         time_t getDeadline_t(void);
 
-        bool saveRecords(void);
-        bool removeRecords(void);
+        bool saveRecords(void);         // save user records to [USER].dat
+        bool removeRecords(void);       // delete user records file
         bool loadRecords(void);         // load records from the data file [Username].dat
         void unloadRecords(void);       // remove loaded records from the memory to free up spaces
 

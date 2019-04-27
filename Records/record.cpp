@@ -3,6 +3,7 @@
 #include <cstring>
 #include <ctime>
 #include <vector>
+
 //getters
 unsigned int Record::getID(){return _id;}
 float Record::getAmount(){return _amount;}
@@ -11,6 +12,7 @@ std::string Record::getAccount(){return _account;}
 std::string Record::getRemark(){return _remark;}
 std::string Record::getCategory(){return _category;}
 time_t Record::getDate_t(){return _date;}
+
 std::string Record::getDate()
 {
     char buffer[50];
@@ -18,16 +20,19 @@ std::string Record::getDate()
     std::string date_str(buffer);
     return date_str;
 }
+
 //setters
 void Record::setID(unsigned int ID)
 {
     _id = ID;
 }
+
 bool Record::setDate(time_t date)
 {
     _date=date;
     return true;
 }
+
 bool Record::setAmount(float amount)
 {
     if(amount>0) //valid
@@ -40,6 +45,7 @@ bool Record::setAmount(float amount)
         return false;
     }
 }
+
 bool Record::setType(std::string type)
 {
     for(auto &c : type)
@@ -53,8 +59,8 @@ bool Record::setType(std::string type)
     {
         return false;
     }
-    
 }
+
 bool Record::setCategory(std::string category)
 {
     for(auto &c : category)
@@ -62,6 +68,7 @@ bool Record::setCategory(std::string category)
     _category=category;
     return true;
 }
+
 bool Record::setAccount(std::string account)
 {
     for(auto &c : account)
@@ -69,6 +76,7 @@ bool Record::setAccount(std::string account)
     _account=account;
     return true;
 }
+
 bool Record::setRemark(std::string remark)
 {
     _remark=remark;
@@ -78,7 +86,7 @@ bool Record::setRemark(std::string remark)
 //default initialization of a record
 Record::Record()
 {
-    time_t now=time(0);
+    time_t now=time(nullptr); // current time
     setDate(now);
     _amount=-1; //undefined
     setType("");

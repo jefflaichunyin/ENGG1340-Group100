@@ -56,7 +56,7 @@ void printRecordsHeader()
     cout << string(6+25+15+15+15+10+10, '-') << endl;
 }
 
-
+// Used to navigate between pages of records
 // Print n-records or lines starting from the number "from"
 void printRecords(Records *records, int from, int n)
 {
@@ -86,6 +86,7 @@ void printRecords(Records *records, int from, int n)
             n--;
         }
     }
+    // fill the remaining spaces with empty lines
     while(n-- > 0)
         cout << endl;
 }
