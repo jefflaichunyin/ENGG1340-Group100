@@ -103,7 +103,7 @@ The user could use the statistic function to visualize his spending habits
 
 The user can use this function to export his/her records into csv file
 
-![Screenshot from 2019-04-27 10-02-44](https://user-images.githubusercontent.com/47233421/56850747-1ea9af00-6939-11e9-93a2-51a9c6931da0.png)
+![Screenshot from 2019-04-27 10-20-05](https://user-images.githubusercontent.com/47233421/56850849-a643ed80-693a-11e9-919a-bccbb0fec2f2.png)
 
 The file will be saved in the "~/ENGG1340-Group100/Release" directory
 
