@@ -40,7 +40,7 @@ void printHeader(User *user)
         cout << "Monthly Goal:\tNot set yet";
     else
         cout << "Monthly Goal:\t$" << setw(10) << fixed << right << user->getMonthlyGoal();
-    cout << "\tMonthly Quota:\t$" << user->getMonthlyQuota() << endl;
+    cout << "\tMonthly Quota:\t$" << setw(12) << fixed << right << setprecision(1) << user->getMonthlyQuota() << endl;
 }
 
 // Print the records header
