@@ -14,6 +14,7 @@ We have implemented the following program features:
 6. create/remove user account, basic identity verification and allow users to change their password
 7. use presence/range/type/length check to validate every user input
 8. allow user to navigate between pages of records instead of scrolling
+9. allow user to export record to csv file
 ## User Manual:
 =======
 
@@ -96,6 +97,9 @@ A congratulation message will be displayed if the user can achieve his saving go
 ![Screenshot from 2019-04-27 18-46-33](https://user-images.githubusercontent.com/15307683/56848522-cfee1c00-691c-11e9-8728-8177e97c4896.png)
 
 The user could use the statistic function to visualize his spending habits
+
+### Export to csv file
+![]
 
 ### Input Validation
 ![Screenshot from 2019-04-27 18-50-29](https://user-images.githubusercontent.com/15307683/56848579-63275180-691d-11e9-8665-daaaa0b22adc.png)
