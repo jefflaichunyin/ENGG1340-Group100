@@ -43,7 +43,7 @@ float User::getMonthlyIncome()
     {
         Record *r = user_records->getRecord(i);
         time_t record_t = r->getDate_t();
-        if(r->getType()=="INCOME" && localtime(&current_t)->tm_mon == localtime(&record_t)->tm_mon)
+        if(r->getType()=="INCOME" && r->getCategory()!="TRANSFER" && localtime(&current_t)->tm_mon == localtime(&record_t)->tm_mon)
             income += r->getAmount();
     }
     return income;
@@ -59,7 +59,7 @@ float User::getMonthlyExpense()
     {
         Record *r = user_records->getRecord(i);
         time_t record_t = r->getDate_t();
-        if(r->getType()=="EXPENSE" && localtime(&current_t)->tm_mon == localtime(&record_t)->tm_mon)
+        if(r->getType()=="EXPENSE" && r->getCategory()!="TRANSFER" &&  localtime(&current_t)->tm_mon == localtime(&record_t)->tm_mon)
             expense += r->getAmount();
     }
     return expense;
