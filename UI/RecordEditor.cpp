@@ -54,6 +54,7 @@ void addRecord(Records *user_records)
     }
     delete new_record; 
     new_record = nullptr;
+    user_records->normalizeID();
 }
 
 void changeRecord(Records *user_records)
@@ -65,6 +66,7 @@ void changeRecord(Records *user_records)
     }
     else
     {
+        user_records->normalizeID();
         int id;
         string type, account, category, remark;
         float amount;
@@ -98,11 +100,12 @@ void deleteRecord(Records *user_records)
     }
     else
     {
+        user_records->normalizeID();
         int id;
         printRecordsHeader();
         printRecords(user_records);
         id = validatedInt("Please enter the ID of the record your want to delete: ", 1, user_records->countRecord());
-        user_records->deleteRecord(id - 1);        
+        user_records->deleteRecord(id - 1);      
     }
 }
 

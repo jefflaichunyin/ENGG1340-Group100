@@ -43,6 +43,7 @@ bool Records::replaceRecord(unsigned int no, Record record)
     if(no >= 0 && no < _records.size())
     {
         _records[no] = record;
+        normalizeID();
         return true;
     }
     else
@@ -53,7 +54,8 @@ bool Records::replaceRecord(unsigned int no, Record record)
 
 void Records::normalizeID(void)
 {
-    sortRecords(ID, true);
+    if(countRecord()>1) // meaningless to sort just 1 record
+        sortRecords(ID, true);
     for(unsigned int i=0; i<countRecord(); i++)
     {
         getRecord(i)->setID(i+1);
@@ -69,8 +71,9 @@ void Records::swapRecords(unsigned int a, unsigned int b)
 void Records::sortRecords(Field field, bool ascending)
 {
     unsigned int num_of_records = countRecord();
+    
     // selection sort is used as it's simple and more efficient than bubble sort
-    for(unsigned int i=0; i<num_of_records-1; i++)
+    for(unsigned int i=0; i<num_of_records-1 && num_of_records!=0; i++) // 0-1 will underflow
     {
         unsigned int target = i; // position of n-th record
         for(unsigned int j = i+1; j<num_of_records; j++)

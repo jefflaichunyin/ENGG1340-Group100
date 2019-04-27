@@ -16,9 +16,8 @@ class Records
         // return a pointer pointing to Records object containing the result, delete it when not useful anymore
         Records * searchRecords(Field field, std::string keyword); 
         void sortRecords(Field field, bool ascending);
-    
-    private:
         void normalizeID(void);
+    private:
         void swapRecords(unsigned int a, unsigned int b); // swap two records
         std::vector<Record> _records;
 };

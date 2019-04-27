@@ -1,5 +1,5 @@
 
-#include "records.h"
+#include "../Records/records.h"
 #define MAX_LENGTH 255
 
 // only use basic data type without internal pointers so that it can be save in binary file
