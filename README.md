@@ -101,7 +101,7 @@ The user could use the statistic function to visualize his spending habits
 ### Export to csv file
 ![Screenshot from 2019-04-27 9-56-33](https://user-images.githubusercontent.com/47233421/56850752-2cf7cb00-6939-11e9-9196-1ed2b864f874.png)
 
-The user can use this function to export his/her records into csv file
+The user can use this function to export his/her records into csv file and do further data processing using other software, such as Microsoft Excel, Google Docs...
 
 ![Screenshot from 2019-04-27 10-20-05](https://user-images.githubusercontent.com/47233421/56850849-a643ed80-693a-11e9-919a-bccbb0fec2f2.png)
 
@@ -123,6 +123,6 @@ User existance will be checked before creating, so that the user record will not
 
 ![Screenshot from 2019-04-27 18-57-26](https://user-images.githubusercontent.com/15307683/56848683-522b1000-691e-11e9-83f2-7dc7c39db3a6.png)
 
-User must enter a postive saving goal and set a valid deadline 
+User must enter a saving goal that is larger than he/her current net income and set a valid deadline 
 
 
