@@ -14,11 +14,23 @@ Our program should implement the following program features:
 6. predict future income, expense and capital using past records
 7. create/remove user account, basic identity verification (+ simple encryption if possible) and allow users to change their password
 ## How to use:
+### INSTALL
 ```
-make all
+make
+make install
 ```
+### RUN
+```
+~/SaveNow/SaveNow
+```
+### UNINSTALL
+```
+make uninstall
+```
+
 ## Data structure:
 We use xxx.dat to store user's records which "xxx" is the user name. A xxx.dat file will be created after user creates account in the programme. If user delete their account permanently in the programme, the xxx.dat file will be deleted too.
+We store the user login information and user records in binary format instead of plain text format because it doesn't extra conversion step and prevent user from peeking other users password easily.
 
 ### Records
 "Records" is used to manage a collection of records of an user.
