@@ -29,7 +29,7 @@ void printHeader(User *user)
     else
     {
         cout << "Saving Goal:\t$" << setw(10) << fixed << user->getSavingGoal();
-        cout << "\tDeadline:\t" << user->getDeadline();
+        cout << "\tDeadline:\t" << setw(10) << right << user->getDeadline();
         float progress = 100*(user->getTotalIncome()-user->getTotalExpense())/user->getSavingGoal();
         cout << "\t\tProgress:\t";
         printPercentage(progress);
