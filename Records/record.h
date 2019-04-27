@@ -23,7 +23,7 @@ class Record
         Record(time_t date, float amount, std::string type, std::string category, std::string account, std::string remark);
         //getters
         unsigned int getID();
-        float getAmount(); //return -1 if undefined
+        float getAmount();  //return -1 if undefined
         time_t getDate_t(); //easier to sort date in time_t
         std::string getDate();
         std::string getType();
@@ -44,9 +44,9 @@ class Record
     private:
         unsigned int    _id;
         time_t          _date;
-        float           _amount;        //always +ve
-        std::string     _type;     //either "INCOME" OR "EXPENSE"
+        float           _amount;    //always +ve
+        std::string     _type;      //either "INCOME" OR "EXPENSE"
         std::string     _category;  //e.g FOOD/TRANSPORT...
-        std::string     _account;  //e.g BANK/CREDIT CARD
+        std::string     _account;   //e.g BANK/CREDIT CARD
         std::string     _remark;
 };

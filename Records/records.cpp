@@ -1,6 +1,7 @@
 #include "records.h"
 #include <vector>
 #include <fstream>
+
 unsigned int Records::countRecord(void)
 {
     return _records.size();
@@ -58,7 +59,7 @@ void Records::normalizeID(void)
         sortRecords(ID, true);
     for(unsigned int i=0; i<countRecord(); i++)
     {
-        getRecord(i)->setID(i+1);
+        getRecord(i)->setID(i+1); // re-number the ID
     }
 }
 
@@ -78,6 +79,7 @@ void Records::sortRecords(Field field, bool ascending)
         unsigned int target = i; // position of n-th record
         for(unsigned int j = i+1; j<num_of_records; j++)
         {
+            // Figure out swap or not
             if(field == ID)
             {
                 // std::cout << "A: " << _records[j].getID() << " B: " <<  _records[i].getID() << std::endl;
@@ -159,7 +161,7 @@ Records * Records::searchRecords(Field field, std::string keyword)
         if(FieldContent.find(keyword) != std::string::npos) // FieldContent contain keyword
         {
             result->addRecord(*candidate); // add i-th target to result
-            result->getRecord(result->countRecord()-1)->setID(candidate->getID());
+            result->getRecord(result->countRecord()-1)->setID(candidate->getID()); // ID of result = ID  of the original record
         } 
     }
     return result;

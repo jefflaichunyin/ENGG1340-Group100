@@ -1,9 +1,10 @@
 // This file define frequenly use print function
 
+// Print out 100 blank line to clear the screen
 void ClearScreen() { cout << string(100, '\n'); }
 
 // Print a bar like this
-// ========>98% |
+// |========>98% |
 void printPercentage(float percentage)
 {
     int blocks = int(percentage/10 - 1);
@@ -13,6 +14,11 @@ void printPercentage(float percentage)
         cout << "|" << left << setw(12-blocks) << ">" << right << fixed << left <<setprecision(1) << setw(4) << percentage << "|";
 }
 
+// Print the header of the homepage
+// e.g.
+// Net Income:	$   2120.00	Monthly Income:	$13180.00		Monthly Expense:	$11010.00
+// Saving Goal:	Not set yet
+// Monthly Goal:	Not set yet	Monthly Quota:	$2120.00
 void printHeader(User *user)
 {
     // cout << "Total Income:\t$" << setw(10) << fixed << user->getTotalIncome();
@@ -38,6 +44,10 @@ void printHeader(User *user)
         cout << "Monthly Goal:\t$" << setw(10) << fixed << right << user->getMonthlyGoal();
     cout << "\tMonthly Quota:\t$" << user->getMonthlyQuota() << endl;
 }
+
+// Print the records header
+// ID  DATE                      ACCOUNT        CATEGORY       AMOUNT          TYPE      REMARK    
+// ----------------------------------------------------------------------------------------------
 void printRecordsHeader()
 {
     cout << endl;
@@ -45,7 +55,9 @@ void printRecordsHeader()
 	 << " " << setw(15) << left << "ACCOUNT" << setw(15) << left << "CATEGORY" << setw(16) << left << "AMOUNT" << setw(10) << "TYPE" << setw(10) << "REMARK" << endl;
     cout << string(4+25+15+15+15+10+10, '-') << endl;
 }
-// Print n-records or lines starting from the number from
+
+
+// Print n-records or lines starting from the number "from"
 void printRecords(Records *records, int from, int n)
 {
     // Print a record and decrease the remaining lines by one
@@ -58,7 +70,7 @@ void printRecords(Records *records, int from, int n)
     {
         cout << "Please go back to the next page\n";
     }
-    else if((unsigned int)from > records->countRecord())
+    else if((unsigned int)from > records->countRecord()-1)
     {
         cout << "Please go back to the previous page\n";
     }
@@ -111,6 +123,7 @@ int validatedInt(string message, int lower, int upper)
             i++;
         }
         while (TempInput[i - 1] != '\n');
+        // type check
         for(int j=0; j<(i-1); j++)
         {
             if(!isdigit(TempInput[j]))
@@ -126,6 +139,7 @@ int validatedInt(string message, int lower, int upper)
         else
         {
             user_input = atoi(TempInput);
+            // range check
             WITHIN_RANGE = (lower <= user_input && user_input <= upper);
             if(WITHIN_RANGE)
                 VALID = true;
@@ -158,7 +172,7 @@ float validatedFloat(string message, float lower, float upper)
         while (TempInput[i - 1] != '\n');
         for(int j=0; j<(i-1); j++)
         {
-            if(!isdigit(TempInput[j]))
+            if(!isdigit(TempInput[j]) && TempInput[j]!='.') // . is allowed in float input
             {
                 HAVE_ALPHA = true;
                 break;
@@ -197,8 +211,6 @@ string validatedString(string message, unsigned int min_length, unsigned int max
         {
             cout << "\n\nYOUR INPUT SHOULD BE WITHIN " << min_length << " AND " << max_length << " CHARACTER(S)\n\n";
         }
-            
-
     }
     return user_input;
 }
