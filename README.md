@@ -99,9 +99,15 @@ A congratulation message will be displayed if the user can achieve his saving go
 The user could use the statistic function to visualize his spending habits
 
 ### Export to csv file
-![Screenshot from 2019-04-27 10-03-02](https://user-images.githubusercontent.com/47233421/56850758-3bde7d80-6939-11e9-81a2-700f3a38c9b7.png)
-![Screenshot from 2019-04-27 10-02-44](https://user-images.githubusercontent.com/47233421/56850747-1ea9af00-6939-11e9-93a2-51a9c6931da0.png)
 ![Screenshot from 2019-04-27 9-56-33](https://user-images.githubusercontent.com/47233421/56850752-2cf7cb00-6939-11e9-9196-1ed2b864f874.png)
+
+The user can use this function to export his/her records into csv file
+
+![Screenshot from 2019-04-27 10-02-44](https://user-images.githubusercontent.com/47233421/56850747-1ea9af00-6939-11e9-93a2-51a9c6931da0.png)
+
+The file will be saved in the "~/ENGG1340-Group100/Release" directory
+
+![Screenshot from 2019-04-27 10-03-02](https://user-images.githubusercontent.com/47233421/56850758-3bde7d80-6939-11e9-81a2-700f3a38c9b7.png)
 
 ### Input Validation
 ![Screenshot from 2019-04-27 18-50-29](https://user-images.githubusercontent.com/15307683/56848579-63275180-691d-11e9-8665-daaaa0b22adc.png)
