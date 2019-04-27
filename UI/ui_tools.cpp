@@ -25,7 +25,7 @@ void printHeader(User *user)
     // cout << "\tTotal Expense:\t$" << setw(10) << fixed << user->getTotalExpense();
     cout << "Net Income:\t$" << setw(10) << fixed << right << setprecision(1) << user->getTotalIncome() - user->getTotalExpense();
     cout << "\tMonthly Income:\t$" << right << user->getMonthlyIncome();
-    cout << "\t\tMonthly Expense:\t$" << setw(16) << right << user->getMonthlyExpense() << endl;
+    cout << "\t\tMonthly Expense:\t$" << setw(8) << right << user->getMonthlyExpense() << endl;
     if(user->getSavingGoal()==0)
         cout << "Saving Goal:\tNot set yet\n";
     else
