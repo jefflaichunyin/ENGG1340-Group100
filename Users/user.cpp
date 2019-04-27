@@ -6,6 +6,7 @@
 #include <cstring>
 #include <ctime>
 
+using namespace std;
 // Class User member function implementation
 float User::getTotalIncome(void)
 {
@@ -68,13 +69,13 @@ float User::getMonthlyExpense()
 }
 
 // return the deadline of the saving goal in MM-YYYY format
-std::string User::getDeadline(void)
+string User::getDeadline(void)
 {
     if(_deadline > 0)
     {
         char buffer[50];
-        std::strftime(buffer, 50, "%B-%Y", std::localtime(&_deadline));
-        std::string date_str(buffer);
+        strftime(buffer, 50, "%B-%Y", localtime(&_deadline));
+        string date_str(buffer);
         return date_str;
     }
     else
@@ -165,7 +166,7 @@ Records * User::getUserRecords(void)
     return &_records;
 }
 
-bool User::setUsername(std::string username)
+bool User::setUsername(string username)
 {
     if(_username == "")
     {
@@ -178,7 +179,7 @@ bool User::setUsername(std::string username)
     }   
 }
 
-bool User::setPassword(std::string password)
+bool User::setPassword(string password)
 {
     if(_password == "")
     {
@@ -192,22 +193,45 @@ bool User::setPassword(std::string password)
     }   
 }
 
-std::string User::getUsername(void)
+string User::getUsername(void)
 {
     return _username;
 }
 
-std::string User::getPassword(void)
+string User::getPassword(void)
 {
     return _password;
 }
 
-bool User::saveRecords(void)
+bool User::exportRecordsToCSV(string filepath)
 {
-    std::ofstream outputfile(_records_path.c_str(), std::ios::binary);
+    ofstream outputfile(filepath.c_str());
     if(outputfile.fail())
     {
-        std::cout << "Failed to save records\n";
+        cout << "Failed to write to " << filepath << endl;
+        return false;
+    }
+    else
+    {
+        outputfile << "ID,DATE,ACCOUNT,CATEGORY,AMOUNT,TYPE,REMARK\n"; // write CSV header
+        for(unsigned int i = 0; i<getUserRecords()->countRecord(); i++)
+        {
+            Record *r = getUserRecords()->getRecord(i);
+            outputfile << r->getID() << ",\"" << r->getDate() << "\",\"" << r->getAccount() << "\",$" 
+            << r->getAmount() << ",\"" << r->getType() << "\",\"" << r->getRemark() << "\"" << endl;
+        }
+        cout << "Records have been written to " << filepath << endl;
+        outputfile.close();
+        return true;
+    }
+    
+}
+bool User::saveRecords(void)
+{
+    ofstream outputfile(_records_path.c_str(), ios::binary);
+    if(outputfile.fail())
+    {
+        cout << "Failed to save records\n";
         return false;
     }
     else
@@ -219,10 +243,10 @@ bool User::saveRecords(void)
             Record *r = _records.getRecord(i);
             user_records->date = r->getDate_t();
             user_records->amount = r->getAmount();
-            std::strcpy(user_records->category, r->getCategory().c_str());
-            std::strcpy(user_records->type, r->getType().c_str());
-            std::strcpy(user_records->account, r->getAccount().c_str());
-            std::strcpy(user_records->remark, r->getRemark().c_str());
+            strcpy(user_records->category, r->getCategory().c_str());
+            strcpy(user_records->type, r->getType().c_str());
+            strcpy(user_records->account, r->getAccount().c_str());
+            strcpy(user_records->remark, r->getRemark().c_str());
             outputfile.write((char *)user_records, sizeof(POD_Record));
         }
         outputfile.close();
@@ -236,7 +260,7 @@ bool User::removeRecords(void)
 {
     if(!remove(_records_path.c_str()))
     {
-        std::cout << "Failed to remove user records\n";
+        cout << "Failed to remove user records\n";
         return false;
     }
     else
@@ -247,10 +271,9 @@ bool User::removeRecords(void)
 
 bool User::loadRecords(void)
 {
-    std::ifstream inputfile(_records_path.c_str(), std::ios::binary);
+    ifstream inputfile(_records_path.c_str(), ios::binary);
     if(inputfile.fail())
     {
-        // std::cout << "Cannot open record file for " << _username << std::endl;
         return false;
     }
     else
@@ -260,10 +283,10 @@ bool User::loadRecords(void)
         {
             Record new_record(
                 user_record->date, user_record->amount, 
-                std::string(user_record->type),
-                std::string(user_record->category),
-                std::string(user_record->account), 
-                std::string(user_record->remark)
+                string(user_record->type),
+                string(user_record->category),
+                string(user_record->account), 
+                string(user_record->remark)
             );
             getUserRecords()->addRecord(new_record);
         }
@@ -281,7 +304,7 @@ void User::unloadRecords(void)
 }
 
 // constructor of User object
-User::User(std::string username, std::string password)
+User::User(string username, string password)
 {
     _username = username;
     _password = password;

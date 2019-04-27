@@ -44,7 +44,8 @@ class User
         
         std::string getDeadline(void);  // return deadline in MM-YYYY format
         time_t getDeadline_t(void);
-
+        // write user records to a CSV file
+        bool exportRecordsToCSV(std::string filepath);    
         bool saveRecords(void);         // save user records to [USER].dat
         bool removeRecords(void);       // delete user records file
         bool loadRecords(void);         // load records from the data file [Username].dat

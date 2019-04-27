@@ -2,7 +2,7 @@
 #include "SearchSortRecords.cpp"
 #include "Settings.cpp"
 #include "Stat.cpp"
-
+#include "Export.cpp"
 #define RECORD_HEIGHT 10
 void printMenu()
 {
@@ -11,10 +11,11 @@ void printMenu()
     cout << "2. Search Records\t\t";
     cout << "3. Sort Records\n";
     cout << "4. Settings\t\t\t";
-    cout << "5. Statistics\t\t\t\n";
-    cout << "6. Previous Page\t\t";
-    cout << "7. Next Page\t\t\t";
-    cout << "8. Logout\n";
+    cout << "5. Statistics\t\t\t";
+    cout << "6. Export Records To CSV File\n";
+    cout << "7. Previous Page\t\t";
+    cout << "8. Next Page\t\t\t";
+    cout << "9. Logout\n";
     cout << endl;
 }
 
@@ -51,7 +52,7 @@ void Homepage(User *user)
         printRecordsHeader();
         printRecords(user_records, first_record, RECORD_HEIGHT);
         printMenu();
-        user_input = validatedInt("Please choose from 1-8: ", 1, 8);
+        user_input = validatedInt("Please choose from 1-9: ", 1, 9);
         if(user_input==1)
             RecordEditor(user);
         else if(user_input==2)
@@ -62,14 +63,17 @@ void Homepage(User *user)
         {
             if(Settings(&user_accounts,user))
                 break; // logout immediately
+            user_accounts.saveUserInfo();
         }
         else if(user_input==5)
             Stat(user);
         else if(user_input==6)
-            first_record -= RECORD_HEIGHT;
+            Export(user);
         else if(user_input==7)
-            first_record += RECORD_HEIGHT;
+            first_record -= RECORD_HEIGHT;
         else if(user_input==8)
+            first_record += RECORD_HEIGHT;
+        else if(user_input==9)
             break;
 
         ClearScreen();

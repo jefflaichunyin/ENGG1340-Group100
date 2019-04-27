@@ -23,9 +23,9 @@ void printHeader(User *user)
 {
     // cout << "Total Income:\t$" << setw(10) << fixed << user->getTotalIncome();
     // cout << "\tTotal Expense:\t$" << setw(10) << fixed << user->getTotalExpense();
-    cout << "Net Income:\t$" << setw(10) << fixed << setprecision(2) << user->getTotalIncome() - user->getTotalExpense();
-    cout << "\tMonthly Income:\t$" <<  user->getMonthlyIncome();
-    cout << "\t\tMonthly Expense:\t$" << user->getMonthlyExpense() << endl;
+    cout << "Net Income:\t$" << setw(10) << fixed << right << setprecision(1) << user->getTotalIncome() - user->getTotalExpense();
+    cout << "\tMonthly Income:\t$" << right << user->getMonthlyIncome();
+    cout << "\t\tMonthly Expense:\t$" << setw(16) << right << user->getMonthlyExpense() << endl;
     if(user->getSavingGoal()==0)
         cout << "Saving Goal:\tNot set yet\n";
     else
@@ -81,7 +81,7 @@ void printRecords(Records *records, int from, int n)
             Record *r = records->getRecord(i);
             cout << left << setw(6) << r->getID() << setw(25) << r->getDate()
                  << " " << setw(15) << left << r->getAccount() << setw(15) << left << r->getCategory()
-                 << setw(2) << "$" << setw(10) << right << fixed << setprecision(2) << r->getAmount() << "   " << left << setw(10) << r->getType()
+                 << setw(2) << "$" << setw(10) << right << fixed << setprecision(1) << r->getAmount() << "   " << left << setw(10) << r->getType()
                  << r->getRemark() << endl;
             n--;
         }
