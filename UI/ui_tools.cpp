@@ -51,9 +51,9 @@ void printHeader(User *user)
 void printRecordsHeader()
 {
     cout << endl;
-    cout << left << setw(4) << "ID" << setw(25) << "DATE"
+    cout << left << setw(6) << "ID" << setw(25) << "DATE"
 	 << " " << setw(15) << left << "ACCOUNT" << setw(15) << left << "CATEGORY" << setw(16) << left << "AMOUNT" << setw(10) << "TYPE" << setw(10) << "REMARK" << endl;
-    cout << string(4+25+15+15+15+10+10, '-') << endl;
+    cout << string(6+25+15+15+15+10+10, '-') << endl;
 }
 
 
@@ -79,7 +79,7 @@ void printRecords(Records *records, int from, int n)
         for (unsigned int i = from; i < records->countRecord() && n>0; i++)
         {
             Record *r = records->getRecord(i);
-            cout << left << setw(4) << r->getID() << setw(25) << r->getDate()
+            cout << left << setw(6) << r->getID() << setw(25) << r->getDate()
                  << " " << setw(15) << left << r->getAccount() << setw(15) << left << r->getCategory()
                  << setw(2) << "$" << setw(10) << right << fixed << setprecision(2) << r->getAmount() << "   " << left << setw(10) << r->getType()
                  << r->getRemark() << endl;

@@ -114,8 +114,9 @@ void RecordEditor(User *user)
     string message = "1. Add a record\n"
                      "2. Edit a record\n"
                      "3. Delete a record\n"
+                     "4. Return\n"
                      "Please enter your choice: ";
-    int action = validatedInt(message, 1, 3);
+    int action = validatedInt(message, 1, 4);
     Records *user_records = user->getUserRecords();
     if(action==1)
         addRecord(user_records);
