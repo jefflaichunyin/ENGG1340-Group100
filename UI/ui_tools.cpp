@@ -1,24 +1,41 @@
 // This file define frequenly use print function
 
 void ClearScreen() { cout << string(100, '\n'); }
+
+// Print a bar like this
+// ========>98% |
+void printPercentage(float percentage)
+{
+    int blocks = int(percentage/10 - 1);
+    if(blocks>0)
+        cout << "|" << left << string(blocks, '=') << setw(12-blocks) << ">" << right << fixed << left << setprecision(1) << setw(4) << percentage << "|";
+    else
+        cout << "|" << left << setw(12-blocks) << ">" << right << fixed << left <<setprecision(1) << setw(4) << percentage << "|";
+}
+
 void printHeader(User *user)
 {
     // cout << "Total Income:\t$" << setw(10) << fixed << user->getTotalIncome();
     // cout << "\tTotal Expense:\t$" << setw(10) << fixed << user->getTotalExpense();
-    cout << "Net Income:\t$" << setw(10) <<  setprecision(2) << fixed << user->getTotalIncome() - user->getTotalExpense();
+    cout << "Net Income:\t$" << setw(10) << fixed << setprecision(2) << user->getTotalIncome() - user->getTotalExpense();
     cout << "\tMonthly Income:\t$" <<  user->getMonthlyIncome();
     cout << "\t\tMonthly Expense:\t$" << user->getMonthlyExpense() << endl;
     if(user->getSavingGoal()==0)
-        cout << "Saving Goal:\tNot set yet";
+        cout << "Saving Goal:\tNot set yet\n";
     else
+    {
         cout << "Saving Goal:\t$" << setw(10) << fixed << user->getSavingGoal();
-    
-    cout << "\tDeadline:\t" << user->getDeadline() << endl;
+        cout << "\tDeadline:\t" << user->getDeadline();
+        float progress = 100*(user->getTotalIncome()-user->getTotalExpense())/user->getSavingGoal();
+        cout << "\tProgress:\t";
+        printPercentage(progress);
+        cout << endl;
+    }
 
     if(user->getMonthlyGoal()==0)
         cout << "Monthly Goal:\tNot set yet";
     else
-        cout << "Monthly Goal:\t$" << setw(10) << fixed << user->getMonthlyGoal();
+        cout << "Monthly Goal:\t$" << setw(10) << fixed << right << user->getMonthlyGoal();
     cout << "\tMonthly Quota:\t$" << user->getMonthlyQuota() << endl;
 }
 void printRecordsHeader()
@@ -28,50 +45,54 @@ void printRecordsHeader()
 	 << " " << setw(15) << left << "ACCOUNT" << setw(15) << left << "CATEGORY" << setw(16) << left << "AMOUNT" << setw(10) << "TYPE" << setw(10) << "REMARK" << endl;
     cout << string(4+25+15+15+15+10+10, '-') << endl;
 }
-
-void printRecords(Records *records)
+// Print n-records or lines starting from the number from
+void printRecords(Records *records, int from, int n)
 {
+    // Print a record and decrease the remaining lines by one
     if(records->countRecord()==0)
     {
         cout <<  string(5, '\t') << "   NO RECORD";
+        n--;
+    }
+    else if(from < 0)
+    {
+        cout << "Please go back to the next page\n";
+    }
+    else if((unsigned int)from > records->countRecord())
+    {
+        cout << "Please go back to the previous page\n";
     }
     else
     {
-        for (unsigned int i = 0; i < records->countRecord(); i++)
+        for (unsigned int i = from; i < records->countRecord() && n>0; i++)
         {
             Record *r = records->getRecord(i);
             cout << left << setw(4) << r->getID() << setw(25) << r->getDate()
                  << " " << setw(15) << left << r->getAccount() << setw(15) << left << r->getCategory()
                  << setw(2) << "$" << setw(10) << right << fixed << setprecision(2) << r->getAmount() << "   " << left << setw(10) << r->getType()
                  << r->getRemark() << endl;
+            n--;
         }
     }
-    cout << endl;
-}
-void printMenu()
-{
-    cout << endl;
-    cout << "1. Add/Edit/Delete Record\t";
-    cout << "2. Search Records\t\t";
-    cout << "3. Sort Records\n";
-    cout << "4. Settings\t\t\t";
-    cout << "5. Statistics\t\t\t";
-    cout << "6. Logout\n";
-    cout << endl;
+    while(n-- > 0)
+        cout << endl;
 }
 
+// Pause the program until the user press enter
 void Pause()
 {
     cout << "Press ENTER to continue\n";
     getchar();
 }
 
+// Capitalize all the letters in a string
 void Capitalize(string &input)
 {
     for(auto &c : input)
         c=toupper(c);
 }
 
+// Ask until user inputed a number between lower and upper
 int validatedInt(string message, int lower, int upper)
 {
     bool VALID = false;
@@ -115,6 +136,7 @@ int validatedInt(string message, int lower, int upper)
     return user_input;
 }
 
+// Ask until user inputed a number between lower and upper
 float validatedFloat(string message, float lower, float upper)
 {
     bool VALID = false;
@@ -159,6 +181,7 @@ float validatedFloat(string message, float lower, float upper)
     return user_input;
 }
 
+// Ask until user inputed a string with length between min_length and max_length
 string validatedString(string message, unsigned int min_length, unsigned int max_length)
 {
     bool VALID = false;

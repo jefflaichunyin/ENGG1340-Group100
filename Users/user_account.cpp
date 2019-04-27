@@ -24,6 +24,7 @@ bool UserAccounts::addUser(std::string username, std::string password)
     if(searchUser(username) == -1) // username is not found
     {
         User *newUser = new User(username, password);
+        newUser->setSavingGoal_t(0, 0);
         _users.push_back(*newUser); // copy new user to vector _users
         delete newUser;
         // std::cout << "User " << username << " is created sucessfully\n";

@@ -30,9 +30,6 @@ class User
         float getTotalIncome(void);
         float getTotalExpense(void);
 
-        float getCategoryIncome(std::string category);
-        float getCategoryExpense(std::string category);
-
         // get income/expense for this month
         float getMonthlyIncome();
         float getMonthlyExpense();

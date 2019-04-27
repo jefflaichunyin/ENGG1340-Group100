@@ -27,7 +27,7 @@ void setGoal(User *user)
         float saving_goal = validatedFloat("How much do you want to save? $", 1, numeric_limits<float>::max());
         cout << "Please set a deadline for your saving goal\n";
         int month = validatedInt("Month(1-12): ", 1, 12);
-        int year = validatedInt("Year: ", 1990, 2030); // 32 bits time_t 
+        int year = validatedInt("Year: ", 1990, 2030); // 32 bits time_t limit
         user->setSavingGoal(saving_goal+user->getTotalIncome()-user->getTotalExpense(), month, year);
         if(time(nullptr)>user->getDeadline_t())
         {

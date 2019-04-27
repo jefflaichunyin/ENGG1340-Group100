@@ -13,7 +13,7 @@ UserAccounts user_accounts;
 #include "Homepage.cpp"
 
 
-
+// Create user menu
 void createNewAccount()
 {
 	string username, password, verification;// double data entry for password
@@ -47,6 +47,7 @@ void createNewAccount()
 	}
 }
 
+// Login Menu
 void Login()
 {
 	
@@ -91,9 +92,11 @@ void Login()
 	}
 }
 
+// Main Menu
 void UI()
 {
     int choice = 0;
+	user_accounts.loadUserInfo();
 	ClearScreen();
 	cout << "Welcome to SaveNow.\n";
 	while(true)
@@ -131,5 +134,4 @@ void UI()
 			exit(0);
 		}
 	}
-
 }

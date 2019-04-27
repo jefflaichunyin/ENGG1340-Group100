@@ -26,7 +26,7 @@ void SearchRecords(Records *user_records)
         {
             cout << "These are the records containing " << keyword << endl;
             printRecordsHeader();
-            printRecords(result);
+            printRecords(result, 0, result->countRecord());
         }
         delete result;      // size maybe large & no longer useful -> delete
         result = nullptr;
@@ -58,10 +58,6 @@ void SortRecords(Records *user_records)
         "In order: ";
         int order = validatedInt(message, 1, 2);
         user_records->sortRecords((Field)(field - 1) , (order==1)?true:false);
-        cout << "Result:\n";
-        printRecordsHeader();
-        printRecords(user_records);
     }
-    Pause();
     ClearScreen();
 }

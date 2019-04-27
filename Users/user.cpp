@@ -14,40 +14,10 @@ float User::getTotalIncome(void)
     for(unsigned int i=0; i< user_records->countRecord(); i++)
     {
         Record *r = user_records->getRecord(i);
-        if(r->getType()=="INCOME")
+        if(r->getType()=="INCOME" && r->getCategory()!="TRANSFER") // exclude all transfer records
             total_income += r->getAmount();
     }
     return total_income;
-}
-float User::getCategoryIncome(std::string category)
-{
-    for(auto &c : category)
-        c=toupper(c);
-    float category_income=0;
-    Records *user_records = getUserRecords();
-    for(unsigned int i=0; i< user_records->countRecord(); i++)
-    {
-        Record *r = user_records->getRecord(i);
-        if(r->getType()=="INCOME"&& r->getCategory()==category)
-            category_income += r->getAmount();
-    }
-    return category_income;
-}
-
-float User::getCategoryExpense(std::string category)
-{
-    for(auto &c : category)
-        c=toupper(c);
-
-    float category_expense=0;
-    Records *user_records = getUserRecords();
-    for(unsigned int i=0; i< user_records->countRecord(); i++)
-    {
-        Record *r = user_records->getRecord(i);
-        if(r->getType()=="EXPENSE" && r->getCategory()==category)
-            category_expense += r->getAmount();
-    }
-    return category_expense;
 }
 
 float User::getTotalExpense(void)
@@ -57,7 +27,7 @@ float User::getTotalExpense(void)
     for(unsigned int i=0; i< user_records->countRecord(); i++)
     {
         Record *r = user_records->getRecord(i);
-        if(r->getType()=="EXPENSE")
+        if(r->getType()=="EXPENSE" && r->getCategory()!="TRANSFER") // exclude all transfer records
             total_expense += r->getAmount();
     }
     return total_expense;
@@ -121,7 +91,7 @@ float User::getSavingGoal(void)
 
 bool User::setSavingGoal_t(float amount, time_t deadline)
 {
-    if(amount>0 && deadline>0)
+    if(amount>=0 && deadline>=0)
     {
         _saving_goal = amount;
         _deadline = deadline;
@@ -155,14 +125,14 @@ bool User::setSavingGoal(float amount, int month, int year)
 
 float User::getMonthlyGoal(void)
 {
-    float goal = -1;
+    float goal = 0;
     time_t current = time(NULL);
     time_t deadline = getDeadline_t();
     int remaining_year = localtime(&deadline)->tm_year - localtime(&current)->tm_year;
     int remaining_month = remaining_year*12 + localtime(&deadline)->tm_mon - localtime(&current)->tm_mon;
     float grand_total = getTotalIncome()-getTotalExpense();
     // cannot meet deadline or meet target or target not set
-    if(remaining_month<0 || grand_total>getSavingGoal() || getSavingGoal()==-1) 
+    if(remaining_month<0 || grand_total>getSavingGoal() || getSavingGoal()==0) 
     {
         goal = 0;
     }

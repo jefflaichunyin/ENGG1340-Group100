@@ -71,7 +71,7 @@ void changeRecord(Records *user_records)
         string type, account, category, remark;
         float amount;
         printRecordsHeader();
-        printRecords(user_records);
+        printRecords(user_records, 0, user_records->countRecord());
         id = validatedInt("Please enter the ID of the record: ", 1, user_records->countRecord());
         cout << "Please enter new value for each field.\n";
         
@@ -103,7 +103,7 @@ void deleteRecord(Records *user_records)
         user_records->normalizeID();
         int id;
         printRecordsHeader();
-        printRecords(user_records);
+        printRecords(user_records, 0, user_records->countRecord());
         id = validatedInt("Please enter the ID of the record your want to delete: ", 1, user_records->countRecord());
         user_records->deleteRecord(id - 1);      
     }
@@ -112,7 +112,7 @@ void deleteRecord(Records *user_records)
 void RecordEditor(User *user)
 {
     string message = "1. Add a record\n"
-                     "2. Change a record\n"
+                     "2. Edit a record\n"
                      "3. Delete a record\n"
                      "Please enter your choice: ";
     int action = validatedInt(message, 1, 3);
