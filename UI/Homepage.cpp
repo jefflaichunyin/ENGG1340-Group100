@@ -37,7 +37,7 @@ void Homepage(User *user)
         // Deadline of saving goal have passed already
         if(time(nullptr)>user->getDeadline_t())
         {
-            cout << "\nThe deadline of the saving goal has already passed, please set a new goal.\n";
+            cout << "\nSaving goal is not set yet, please set a new goal.\n";
             user->setSavingGoal_t(0, 0); // reset old saving goal
         }
         if((user->getTotalIncome()-user->getTotalExpense())>user->getSavingGoal())
