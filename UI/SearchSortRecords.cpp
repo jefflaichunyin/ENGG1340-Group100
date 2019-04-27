@@ -49,8 +49,8 @@ void SortRecords(Records *user_records)
         "3. Account\n"
         "4. Category\n"
         "5. Amount\n"
-        "6. Remark\n"
-        "Search by: ";
+        "6. Type\n"
+        "Sort by: ";
         int field = validatedInt(message, 1, 6);
         message =
         "1. Ascending\n"
