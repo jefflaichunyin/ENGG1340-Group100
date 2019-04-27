@@ -13,7 +13,7 @@ We have implemented the following program features:
 5. allow users to set a savings goal, calculate monthly spending quota for the users and warn the user if they exceed the quota
 6. create/remove user account, basic identity verification and allow users to change their password
 7. use presence/range/type/length check to validate every user input
-## How to use:
+## User Manual:
 ### INSTALL
 ```
 make
@@ -27,4 +27,25 @@ make install
 ```
 make uninstall
 ```
+### Create User Account
+
+### Add Record
+
+### Edit Record
+
+### Delete Record
+
+### Search Record
+
+### Sort Record
+
+### Set Saving Goal
+
+### Change Password
+
+### Delete Account
+
+### View Statistics
+
+
 
